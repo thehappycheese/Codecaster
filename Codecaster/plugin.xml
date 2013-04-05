@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.commands">
+      <category
+            name="Codeshare"
+            id="Codecaster.commands.category">
+      </category>
+      <command
+            name="TOGGLE"
+            categoryId="Codecaster.commands.category"
+            id="Codecaster.commands.startCast">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            commandId="Codecaster.commands.startCast"
+            class="codecaster.handlers.SampleHandler">
+      </handler>
+   </extension>
+   <extension
+         point="org.eclipse.ui.bindings">
+      <key
+            commandId="Codecaster.commands.startCast"
+            contextId="org.eclipse.ui.contexts.window"
+            sequence="M1+6"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration">
+      </key>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="menu:org.eclipse.ui.main.menu?after=additions">
+         <menu
+               label="Codecaster"
+               mnemonic="C"
+               id="Codecaster.menus.sampleMenu">
+            <command
+                  commandId="Codecaster.commands.startCast"
+                  id="Codecaster.menus.startCast"
+                  mnemonic="S">
+            </command>
+         </menu>
+      </menuContribution>
+   </extension>
+
+</plugin>

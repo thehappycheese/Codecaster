@@ -1,0 +1,115 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<style>
+			body{
+				margin:0px;
+				padding:0px;
+			}
+			#container{
+				position:fixed;
+				width:20%;
+				/*height:20%;*/
+				right:20px;
+				top:0px;
+				background-color:rgba(0,0,0,0.5);
+				z-index:9000;
+				color:white;
+				font-size:2em;
+			}
+			#icode{
+				width:100%;
+				height:100%;
+				position:fixed;
+				top:0px;
+				left:0px;
+			}
+			#stsp{
+				margin-left:auto;
+				margin-right:auto;
+				width:100%;
+				font-size:0.66em;
+			}
+		</style>
+	</head>
+	
+	<body>
+		<div id="container">
+			<input id="stsp" type="button" value="START" onmouseup="toggle()"></input>
+			<div id="output"></div>
+		</div>
+		<div id="icode" class="codeinput"></div>
+	</body>
+	<script src="../ace/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+	<script>
+		var icode = ace.edit("icode");
+		icode.setTheme("ace/theme/eclipse");
+		icode.getSession().setMode("ace/mode/javascript");
+		icode.setReadOnly(true);
+		icode.session.setUseWorker(false);
+
+		var stsp = document.getElementById("stsp");
+		var output = document.getElementById("output");
+		
+		
+		var getstuffID=-1;
+		function toggle(){
+			if(getstuffID<0){
+				status("Running...");
+				stsp.value="STOP";
+				getstuffID = setInterval(getstuff,1000);
+			}else{
+				status("Stopped.");
+				stsp.value="START";
+				clearInterval(getstuffID);
+				getstuffID=-1;
+			}
+		}
+		var loaded =true;
+		function getstuff(){
+			var ipaddress = document.URL.replace("viewer.htm","");
+			if(loaded){
+				try{
+					var xhtml = new XMLHttpRequest();
+					xhtml.open("GET",ipaddress+"get",true);
+					xhtml.send();
+					xhtml.onload = ondataload;
+					loaded=false;
+				}catch(e){
+					toggle();
+					status("ERROR")
+				}
+			}
+		}
+		
+		function ondataload(event){
+			updateCode(event.currentTarget.responseText);
+			loaded=true;
+		}
+		
+		function updateCode(str){
+			if(str.length==0){
+				return;
+			}
+			var obj = [];
+			var arr = str.split("&");
+			var pair
+			for(var i = 0;i<arr.length;i++){
+				pair = arr[i].split("=")
+				obj[pair[0]] = unescape(pair[1].replace(/\+/g,"%20"));
+			}
+			//console.log(obj)
+			icode.setValue(obj["content"]);
+			status(obj["title"]);
+			icode.selection.clearSelection();
+			icode.selection.moveCursorTo(obj["r1"],obj["c1"]);
+			icode.selection.selectTo(obj["r2"],obj["c2"]);
+			
+			icode.scrollToLine(Math.max(parseInt(obj["r1"])-10,0))
+			//icode.selection.setSelectionRange(String.valueOf(obj["hoff"]),String.valueOf(obj["hlen"]))
+		}
+		function status(str){
+			output.innerHTML = str
+		}
+	</script>
+</html>
