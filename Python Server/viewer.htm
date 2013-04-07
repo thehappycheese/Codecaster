@@ -23,6 +23,7 @@
 				position:fixed;
 				top:0px;
 				left:0px;
+				display:none;
 			}
 			#stsp{
 				margin-left:auto;
@@ -39,11 +40,13 @@
 			<div id="output"></div>
 		</div>
 		<div id="icode" class="codeinput"></div>
+		<div id="munt">munt</div>
 	</body>
 	<script src="../ace/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
 	<script>
+		var username = ((+new Date()) & 0xFFFFFF)+"";
 		var icode = ace.edit("icode");
-		icode.setTheme("ace/theme/eclipse");
+		icode.setTheme("ace/theme/twilight");
 		icode.getSession().setMode("ace/mode/javascript");
 		icode.setReadOnly(true);
 		icode.session.setUseWorker(false);
@@ -71,7 +74,7 @@
 			if(loaded){
 				try{
 					var xhtml = new XMLHttpRequest();
-					xhtml.open("GET",ipaddress+"get",true);
+					xhtml.open("GET",ipaddress+"get/"+username,true);
 					xhtml.send();
 					xhtml.onload = ondataload;
 					loaded=false;
@@ -83,14 +86,14 @@
 		}
 		
 		function ondataload(event){
-			updateCode(event.currentTarget.responseText);
+			if(event.currentTarget.responseText.length>0){
+				//updateCode(event.currentTarget.responseText);
+				document.getElementById("munt").innerHTML=event.currentTarget.responseText;
+			}
 			loaded=true;
 		}
 		
 		function updateCode(str){
-			if(str.length==0){
-				return;
-			}
 			var obj = [];
 			var arr = str.split("&");
 			var pair
