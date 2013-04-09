@@ -42,26 +42,25 @@ class MyHandler(http.server.SimpleHTTPRequestHandler):
 				contentupdated = datetime.datetime.now()
 				s.wfile.write("SUCCESS".encode("utf-8"))
 			elif (s.path[:4]=="/get"):
+				#Write full response
+				s.sendHead()
+				s.wfile.write(data.encode("utf-8"))
 				
 				currentuser = getUser(s.path[5:])
 				
 				tdelt = currentuser.lastrequest - contentupdated
-				
+				tdelt2 = currentuser.lastrequest - datetime.datetime.now()
 				currentuser.lastrequest = datetime.datetime.now();
-				print ("time since content was updated:", tdelt.total_seconds());
+				print ("Client:",currentuser.name," Ping:", tdelt2.total_seconds());
 				if(tdelt.total_seconds()<-10):
 					#user very out of date
+					pass;
 				elif(tdelt.total_seconds()<0):
 					#user out of date
+					pass;
 				else:
-					#user up to date
+					s.sendHead()
 					s.wfile.write("".encode("utf-8"));
-				
-				#Write diff response
-				
-				#Write full response
-				s.sendHead()
-				s.wfile.write(data.encode("utf-8"))
 			else:
 				super(MyHandler,s).do_GET()
 	def sendHead(s):

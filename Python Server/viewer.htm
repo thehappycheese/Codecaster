@@ -23,7 +23,7 @@
 				position:fixed;
 				top:0px;
 				left:0px;
-				display:none;
+				//display:none;
 			}
 			#stsp{
 				margin-left:auto;
@@ -87,8 +87,8 @@
 		
 		function ondataload(event){
 			if(event.currentTarget.responseText.length>0){
-				//updateCode(event.currentTarget.responseText);
-				document.getElementById("munt").innerHTML=event.currentTarget.responseText;
+				updateCode(event.currentTarget.responseText);
+				//document.getElementById("munt").innerHTML=event.currentTarget.responseText;
 			}
 			loaded=true;
 		}
