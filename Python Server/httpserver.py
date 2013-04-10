@@ -29,6 +29,10 @@ class MyHandler(http.server.SimpleHTTPRequestHandler):
 		s.send_response(200)
 		s.send_header("Content-type", "text/html")
 		s.end_headers()
+	def sendHead(s):
+		s.send_response(200)
+		s.send_header("Content-type", "text/html")
+		s.end_headers()
 	def do_GET(s):
 		global data
 		global contentupdated
@@ -37,13 +41,13 @@ class MyHandler(http.server.SimpleHTTPRequestHandler):
 		
 		if(len(s.path)>0):
 			if (len(s.path)>4 and s.path[:4]=="/put"):
-				s.sendHead()
+				s.do_HEAD()
 				data = s.path[5:]
 				contentupdated = datetime.datetime.now()
 				s.wfile.write("SUCCESS".encode("utf-8"))
 			elif (s.path[:4]=="/get"):
 				#Write full response
-				s.sendHead()
+				s.do_HEAD()
 				s.wfile.write(data.encode("utf-8"))
 				
 				currentuser = getUser(s.path[5:])
@@ -59,14 +63,11 @@ class MyHandler(http.server.SimpleHTTPRequestHandler):
 					#user out of date
 					pass;
 				else:
-					s.sendHead()
+					s.do_HEAD()
 					s.wfile.write("".encode("utf-8"));
 			else:
 				super(MyHandler,s).do_GET()
-	def sendHead(s):
-		s.send_response(200)
-		s.send_header("Content-type", "text/html")
-		s.end_headers()
+	
 	def log_message(self,format,*args):
 		pass
 		#os.system("cls")
