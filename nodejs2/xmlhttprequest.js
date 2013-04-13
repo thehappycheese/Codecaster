@@ -39,8 +39,7 @@ function stateStr(req){
 		case req.UNSENT:
 			return "UNSENT";
 		default:
-			return req.readyState
-	
+			return req.readyState;
 	}
 
 }

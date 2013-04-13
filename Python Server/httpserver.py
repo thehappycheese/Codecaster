@@ -23,6 +23,11 @@ def getUser(strname):
 		user.lastrequest = datetime.datetime.now();
 		users.append(user)
 	return(user);
+	
+	
+
+	
+	
 class MyHandler(http.server.SimpleHTTPRequestHandler):
 	
 	def do_HEAD(s):
