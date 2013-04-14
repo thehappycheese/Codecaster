@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title></title>
+		<link rel="stylesheet" href="src/main.css" type="text/css">
+	</head>
+	
+	<body>
+		<div id="container">
+			<h1>Codecaster</h1>
+			<input id="stsp" type="button" value="START" onmouseup="startSocket()" style="font-size:2em;"></input>
+			
+			<div id="status">----</div>
+			
+			<input id="fileinput" type="file" onchange="handelOpenFile(event)"></input>
+			<div id="filelist">
+				<div class="fileitem">Test</div>
+				<div class="fileitem">Tesdsfds</div>
+			</div>
+		</div>
+		<div id="icode" class="codeinput"> </div>
+	</body>
+	
+	<script src="../ace/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+	<script src="src/main.js"></script>
+	<script src="src/filelist.js"></script>
+	<script src="src/client.js"></script>
+</html>
