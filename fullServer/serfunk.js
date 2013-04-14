@@ -16,6 +16,7 @@ exports.init = function(){
 	for(var i=0;i<fileList.length;i++){
 		data.push(fs.readFileSync(folder+"/"+fileList[i],{encoding:"utf8"}));
 	}
+	console.log(data);
 }
 exports.init();
 //
@@ -32,9 +33,10 @@ exports.User = function(arg_con,arg_id){
 	// INITIALISE ---------------------------------
 	this.id = arg_id
 	this.con = arg_con;
-	this.data = "";
-	this.isMaster = false;
 	this.fileIndex = 0;
+	this.data = data[this.fileIndex];
+	this.isMaster = false;
+	
 	
 	// DESTROY ------------------------------------
 	this.con.on('close', (function(connection){
@@ -71,18 +73,23 @@ exports.User = function(arg_con,arg_id){
 			case "setMaster":
 				this.makeMaster();
 				break;
-			case "getFiles":
-				this.sendCommand("setFiles",fileList);
-				break;
+			
 			case "setFileIndex":
 				this.fileIndex = m.d;
+				this.data = data[this.fileIndex];
 				break;
 			case "saveFile":
 				fs.writeFileSync(folder+"/"+fileList[this.fileIndex],this.data)
 				break;
+			case "getFileList":
+				this.sendCommand("setFileList",fileList);
+				break;
+			case "getTitle":
+				this.sendCommand("setTitle",fileList[this.fileIndex]);
+				break;
 			case "getData":
-				this.data = data[this.fileIndex];
-				this.sendCommand("setData",data);
+				this.sendCommand("setData",this.data);
+				console.log(this.data);
 				break;
 			case "setData":
 				data[this.fileIndex] = m.d;
