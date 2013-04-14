@@ -1,57 +1,104 @@
 exports.diff = function(s1,s2){
 	
-	var a = s1.split(",");
-	var b = s2.split(",");
+	var a = s1.split("");
+	var b = s2.split("");
 	
+	// prevent reuse of indicies from each array.
+	var ua = a.splice();
+	var ub = b.splice();
+	for(var i = 0;i<ub.length;i++){
+		ub[i]=false;
+	}
+	for(var i = 0;i<ua.length;i++){
+		ua[i]=false;
+	}
+	
+	// Gennerate character mapping from one array to another
+	
+	var mapa = [];
 	var mapb = [];
-	var mapa =[];
-	var failcount = 0;
-	for(var i = 0;i<a.length;i++){
-		for(var j = 0;j<b.length;j++){
-			if(a[i]==b[j]){
-				mapb.push(j);
-				mapa.push(i);
-			}
-		}
-	}
-	
-	mapb.sort(function(a,b){return a-b;});
-	
-	var ins = b.slice();
 
-	for(var i=0, j=0;i<b.length;i++){
-		if(j<mapa.length && mapb[j]==i){
-			ins[i]=mapa[j];
-			j++;
+	for(var j = 0;j<b.length;j++){
+		for(var i = 0;i<a.length;i++){
+			if(a[i]==b[j] && !ub[j] && !ua[i]){
+				mapa.push(i);
+				mapb.push(j);
+				ua[i]=true;
+				ub[j]=true;
+			}
 		}
 	}
 	
-	var result = [];
-	var end = 0;
-	var i = 0;
-	while(i<ins.length){
-		if(typeof ins[i] == "string"){
-			result.push(ins[i]);
-		}else{
-			if(i+2<ins.length && typeof ins[i+1] == "number" && typeof ins[i+2] == "number"){
-				end = i;
-				
-				while(end<ins.length-1 && typeof ins[end] == "number" && ins[end] == ins[end+1]-1){
-					end++;
+	
+	// Create array same length as B
+	
+	var c = b.slice();
+
+	
+	// Fill in the array with data the client already has:
+	
+	for(var i = 0;i<mapb.length;i++){
+		c[mapb[i]] = mapa[i];
+	}
+	//console.log(a);
+	//console.log(b);
+	//console.log(JSON.stringify(mapa));
+	//console.log(JSON.stringify(mapb));
+	//console.log(JSON.stringify(c));
+	
+	// compress c;
+
+	for(i=0;i<c.length-1;i++){
+		if(typeof c[i] == "object"){
+			if(typeof c[i+1] == "number"){
+				if(c[i+1]==c[i][1]+1){
+					c[i][1]++;
+					c.splice(i+1,1);
+					i--;
 				}
-				
-				if(end-i>2){
-					result.push([ins[i],ins[end]]);
-					i=end;
-				}else{
-					result.push(ins[i]);
+			}
+		}else if(typeof c[i] == "number"){
+			if(typeof c[i+1] == "number"){
+				if(c[i+1]==c[i]+1){
+					c[i] = [c[i],c[i+1]]
+					c.splice(i+1,1);
+					i--;
 				}
-				
-			}else{
-				result.push(ins[i]);
 			}
 		}
-		i++;
 	}
-	return result;
+	
+	// Further compression;
+	for(var i=0;i<c.length;i++){
+		if(typeof c[i] == "object"){
+			if(c[i][1]==c[i][0]+1){
+				c.splice(i,1,c[i][0],c[i][1]);
+			}
+		}
+	}
+	return c;
 }
+exports.hunksplit = function (str){
+	
+}
+
+//Apply diff:
+/*
+function updateData(dat){
+	console.log(JSON.stringify(dat))
+	var cur = noox.value.split("");
+	var res = [];
+	for(var i = 0; i<dat.length;i++){
+		if(typeof dat[i]=="object"){
+			for(var j = dat[i][0];j<=dat[i][1];j++){
+				res.push(cur[j]);
+			}
+		}else if(typeof dat[i]=="string"){
+			res.push(dat[i]);
+		}else{
+			res.push(cur[dat[i]]);
+		}
+	}
+	setData(res.join(""));
+}
+*/

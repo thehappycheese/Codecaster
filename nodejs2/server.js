@@ -9,7 +9,7 @@ server.listen(9999, function() {});
 // Use library to implement it into a websocket server
 wsServer = new WebSocketServer({httpServer: server});
 wsServer.on('request', function(request) {
-	funk.onopen(request)
+	funk.addUser(request)
 });
 
 
