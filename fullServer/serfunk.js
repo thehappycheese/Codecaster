@@ -9,6 +9,7 @@ var users = [];
 var title = "";
 var data = [];
 var fileList = [];
+var cursor = [];
 var folder = "workDir";
 
 exports.init = function(){
@@ -71,9 +72,16 @@ exports.User = function(arg_con,arg_id){
 		}
 		switch(m.c){
 			case "setMaster":
-				this.makeMaster();
+				this.sendCommand("setMaster",true);
+				this.isMaster = true;
+				for(var i = 0; i<users.length;i++){
+					if(users[i].id != this.id){
+						users[i].sendCommand("setMaster",false);
+						users[i].isMaster = false;
+					}
+				}
+				this.isMaster = true;
 				break;
-			
 			case "setFileIndex":
 				this.fileIndex = m.d;
 				this.data = data[this.fileIndex];
@@ -83,6 +91,14 @@ exports.User = function(arg_con,arg_id){
 				break;
 			case "getFileList":
 				this.sendCommand("setFileList",fileList);
+				break;
+			case "setCursor":
+				cursor = m.d;
+				for(var i = 0;i<users.length;i++){
+					if(users[i].id!=this.id){
+						users[i].sendCommand("setCursor",cursor);
+					}
+				}
 				break;
 			case "getTitle":
 				this.sendCommand("setTitle",fileList[this.fileIndex]);
@@ -96,7 +112,8 @@ exports.User = function(arg_con,arg_id){
 				this.data = m.d;
 				for(var i = 0;i<users.length;i++){
 					if(users[i].id!=this.id){
-						users[i].updateData();
+						users[i].sendCommand("updateData",diff.diff(users[i].data,data[users[i].fileIndex]));
+						users[i].data = data[users[i].fileIndex];
 					}
 				}
 				break;
@@ -105,30 +122,6 @@ exports.User = function(arg_con,arg_id){
 		}
 		
 	}).bind(this));
-	
-	// HELPERS -----------------------------
-	this.updateData = (function(){
-			this.sendCommand("updateData",diff.diff(this.data,data[this.fileIndex]));
-			this.data = data[this.fileIndex];
-	}).bind(this);
-	
-	this.makeMaster = function(){
-		this.sendCommand("setMaster",true);
-		this.isMaster = true;
-		for(var i = 0; i<users.length;i++){
-			if(users[i].id != this.id){
-				users[i].sendCommand("setMaster",false);
-				users[i].isMaster = false;
-			}
-		}
-		this.isMaster = true;
-	}
-	
-	
-	
-	
-	
-	
 }
 
 /*

@@ -30,7 +30,34 @@ console.log(url);
 
 var client = new webSocketClient(url);
 
+window.onkeyup = function(e){
+	if(editor.getValue()!=client.data){
+		client.data=editor.getValue();
+		client.sendData();
+	}
+	checkCursor()
+}
+window.onmousedown = function(e){
+	checkCursor()
+}
+var ccur = {r:0,c:0}
+function checkCursor(){
+	var curs = editor.selection.getCursor();
+	if(ccur.r!=curs.row || ccur.c!=curs.column){
+		ccur.r=curs.row;
+		ccur.c=curs.column;
+		client.sendCommand("setCursor",{r:curs.row,c:curs.column});
+		console.log("cursor moved!");
+	}
+}
 
+client.oncursorchange = function(){
+	var curs = editor.selection.getCursor();
+	curs.row = client.cursor.r;
+	curs.column = client.cursor.c;
+	editor.selection.moveCursorTo(1,1);
+	console.log(curs);
+}
 
 client.ontitlechange = function(){
 	statusBox.innerHTML = client.title;

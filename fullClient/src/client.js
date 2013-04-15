@@ -4,10 +4,12 @@ function webSocketClient(arg_url){
 	this.ontitlechange = function(){};
 	this.onfilelistchange = function(){};
 	this.onismasterchange = function(){};
+	this.oncursorchange = function(){};
 	////////////////////////////////////////////////////////////////////
 	this.isMaster = false;
 	this.fileList = [];
 	this.data = [];
+	this.cursor = {};
 	this.title = "";
 	this.url = arg_url;
 	///////////////////////////////////////////////////////////////////////////////
@@ -52,6 +54,12 @@ function webSocketClient(arg_url){
 				this.updateData(m.d);
 				this.ondatachange();
 				break;
+			case "setCursor":
+				this.cursor = m.d;
+				this.oncursorchange();
+				break;
+			default:
+				consol.log("> Unknown Command!")
 		}
 	}).bind(this);
 	this.sk.onerror = function(e){
@@ -66,15 +74,15 @@ function webSocketClient(arg_url){
 		return this.sk.send(JSON.stringify({c:cmd,d:dat}));
 	}
 	
-	this.setData = function(dat){
-		
+	this.sendData = function(){
+		this.sendCommand("setData",this.data)
 	}
 	this.setFileIndex = function(i){
 		
 	}
 	this.updateData = function(dat){
 		console.log(JSON.stringify(dat))
-		var cur = noox.value.split("");
+		var cur = this.data.split("");
 		var res = [];
 		for(var i = 0; i<dat.length;i++){
 			if(typeof dat[i]=="object"){
@@ -87,7 +95,7 @@ function webSocketClient(arg_url){
 				res.push(cur[dat[i]]);
 			}
 		}
-		setData(res.join(""));
+		this.data=res.join("");
 	}
 }
 
