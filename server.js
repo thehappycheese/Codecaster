@@ -1,6 +1,13 @@
 var WebSocketServer = require('websocket').server;
 var http = require('http');
-var funk = require('./serfunk.js');
+var funk = require('./server/serfunk.js');
+var conn = require('connect');
+
+console.log(__dirname);
+
+conn.createServer(
+    conn.static(__dirname+"/client")
+).listen(9998);
 
 // Create standard http server
 var server = http.createServer(function(request, response) {});
