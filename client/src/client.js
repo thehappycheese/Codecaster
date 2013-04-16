@@ -8,6 +8,7 @@ function webSocketClient(arg_url){
 	////////////////////////////////////////////////////////////////////
 	this.isMaster = false;
 	this.fileList = [];
+	this.fileIndex = 0;
 	this.data = [];
 	this.cursor = {};
 	this.title = "";

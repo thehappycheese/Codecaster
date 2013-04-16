@@ -10,7 +10,7 @@ var title = "";
 var data = [];
 var fileList = [];
 var cursor = [];
-var folder = "workDir";
+var folder = "../workDir";
 
 exports.init = function(){
 	fileList = fs.readdirSync(folder);
@@ -93,10 +93,9 @@ exports.User = function(arg_con,arg_id){
 				this.sendCommand("setFileList",fileList);
 				break;
 			case "setCursor":
-				cursor = m.d;
 				for(var i = 0;i<users.length;i++){
-					if(users[i].id!=this.id){
-						users[i].sendCommand("setCursor",cursor);
+					if(users[i].id!=this.id && users[i].fileIndex == this.fileIndex){
+						users[i].sendCommand("setCursor",m.d);
 					}
 				}
 				break;

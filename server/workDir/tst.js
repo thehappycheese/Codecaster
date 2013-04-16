@@ -1,1 +1,0 @@
-var javascript = "cool";

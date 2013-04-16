@@ -1,12 +1,3 @@
-This is a node.js server
-
-find the bat file and use it to run the server
-
-open browser to http://127.0.0.1:8080/
-
-Hopefully this works!
-
-
 I licence this under a creative commons licence.
 
 Attribution is required
