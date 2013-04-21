@@ -2,4 +2,4 @@
 
 // Demo
 
-alert("Hello World!");
+alert("FUCK!");

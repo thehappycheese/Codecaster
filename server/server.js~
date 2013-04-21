@@ -3,11 +3,12 @@ var funk = require('./serfunk.js');
 var conn = require('connect');
 
 
-var options = {};
+var options = conn.static(__dirname+"/../");
+console.log(options);
 options.host = "134.7.210.145";
 options.port = 80;
 
-var server = conn.createServer(options,conn.static(__dirname+"/../")).listen(80);
+var server = conn.createServer(options).listen(80);
 
 // Use library to implement it into a websocket server
 wsServer = new WebSocketServer({httpServer: server});

@@ -25,12 +25,11 @@ function savefile(e){
 		client.sendCommand("saveFile");
 		e.preventDefault();
 	}
-	
 }
 window.addEventListener("keydown",testfile);
 function testfile(e){
 	if((e.ctrlKey == true && e.keyCode == 81) || !e){
-		var str = "http://"+url+":8080/workDir/"+client.fileList[client.fileIndex];
+		var str = "http://"+url+"/workDir/"+client.fileList[client.fileIndex];
 		console.log(str);
 		open(str,"_blank")
 	}
@@ -48,11 +47,11 @@ fWid.onselect = function(ind){
 //////////////////////////
 
 var url = "";
-var socketport = 433;
+var socketport = 80;
 updateUrl(socketport);
 function updateUrl(port){
 	socketport = port
-	url = (/[0-9]*\.[0-9]*\.[0-9]*\.[0-9]/).exec(document.URL);
+	url = (/[0-9]*\.[0-9]*\.[0-9]*\.[0-9]*/).exec(document.URL);
 	console.log("WEBSOCKET URL SET TO:  " + url);
 }
 
