@@ -2,30 +2,74 @@
 <html>
 	<head>
 		<title></title>
-		<link rel="stylesheet" href="src/main.css" type="text/css">
+		<link rel="stylesheet" href="index.css" type="text/css">
+		<link rel="stylesheet" href="tabs.css" type="text/css">
 	</head>
 	
 	<body>
-		<div id="container">
-			<h1 id="masterflag">Codecaster</h1>
-			<!--<input id="stsp" type="button" value="START" onmouseup="startSocket()" style="font-size:2em;"></input>-->
+
+		<div id="sidebar">
+			<h1>Codecaster</h1>
 			
-			<div id="statusBox">----</div>
-			<div id="filelist">
-				<div class="fileitem">Test</div>
-				<div class="fileitem">Tesdsfds</div>
+			<div id="statusBox">[STATUS]</div>
+				
+			<h2>Options:</h2>
+				<!--<p>Pause Live Feed: <input type="checkbox" id="paused"/></p>-->
+				Text Size: <select id="langmode" onchange="setEditorTextSize(event)">
+					<option value="8pt"	>Tiny</option>
+					<option value="11pt"	>Small</option>
+					<option value="13pt"	selected>Normal</option>
+					<option value="14pt"	>Large</option>
+					<option value="16pt"	>Huge</option>
+				</select>
+				<p>Color Theme:<br><select id="edtheme" onchange="setEditorColorScheme(event)">
+				<option value="ace/theme/ambiance"					>Ambiance</option>
+				<option value="ace/theme/chaos"						>Chaos</option>
+				<option value="ace/theme/chrome"					>Chrome</option>
+				<option value="ace/theme/clouds"					>Clouds</option>
+				<option value="ace/theme/clouds_midnight"			>Clouds Midnight</option>
+				<option value="ace/theme/cobalt"					>Cobalt</option>
+				<option value="ace/theme/crimson_editor"			>Crimson Editor</option>
+				<option value="ace/theme/dawn"						>Dawn</option>
+				<option value="ace/theme/dreamweaver"				>Dreamweaver</option>
+				<option value="ace/theme/eclipse"					>Eclipse</option>
+				<option value="ace/theme/github"					>Github</option>
+				<option value="ace/theme/idle_fingers"				>Idle Fingers</option>
+				<option value="ace/theme/kr_theme"					>Kr Theme</option>
+				<option value="ace/theme/merbivore"					>Merbivore</option>
+				<option value="ace/theme/merbivore_soft"			>Merbivore Soft</option>
+				<option value="ace/theme/mono_industrial"			>Mono Industrial</option>
+				<option value="ace/theme/monokai"					>Monokai</option>
+				<option value="ace/theme/pastel_on_dark"			>Pastel On Dark</option>
+				<option value="ace/theme/solarized_dark"			>Solarized Dark</option>
+				<option value="ace/theme/solarized_light"			>Solarized Light</option>
+				<option value="ace/theme/terminal"					>Terminal</option>
+				<option value="ace/theme/textmate"					>Textmate</option>
+				<option value="ace/theme/tomorrow"					>Tomorrow</option>
+				<option value="ace/theme/tomorrow_night"			selected>Tomorrow Night</option>
+				<option value="ace/theme/tomorrow_night_blue"		>Tomorrow Night Blue</option>
+				<option value="ace/theme/tomorrow_night_bright"		>Tomorrow Night Bright</option>
+				<option value="ace/theme/tomorrow_night_eighties"	>Tomorrow Night Eighties</option>
+				<option value="ace/theme/twilight"					>Twilight </option>
+				<option value="ace/theme/vibrant_ink"				>Vibrant Ink </option>
+				<option value="ace/theme/xcode"						>Xcode</option>        
+			</select></p>
+			
+			<div id="adminbox">
+				<h2>Admin Tools:</h2>
 			</div>
-			<p>Press Ctrl+M to become the master</p>
-			<p>Press Ctrl+S to save the file</p>
-			<p>Press Ctrl+~ to open the file in a new window</p>
 		</div>
+		<div id="tabs"></div>
 		<div id="editor" class="codeinput"></div>
+
 	</body>
 	
-	<script src="ace/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
-	<script src="src/client.js"></script>
-	<script src="src/filelist.js"></script>
-	<script src="src/main.js"></script>
+	<script src="ace/ace.js" type="text/javascript" charset="utf-8"></script>
+	<script src="tabs.js"></script>
+	<script src="UiState.js"></script>
+	<script src="ServerState.js"></script>
+	<script src="ClientState.js"></script>
+	
 	
 
 </html>

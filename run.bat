@@ -1,3 +1,3 @@
-cd server
+@echo off
 node server.js
 pause

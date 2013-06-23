@@ -1,0 +1,51 @@
+body{
+	margin:0px;
+	padding:0px;
+}
+h1, h2{
+	font-family:sans-serif;
+}
+h1{
+	font-size:1.5em;
+	color:orange;
+}
+h2{
+	font-size:1.3em;
+}
+select{
+	display:block;
+	width:100%;
+}
+#statusBox{
+	background-color:#777777;
+	width:100%;
+	height:4em;
+	margin:1em 0em;
+	
+}
+#container{
+	width:100%;
+	height:100%;
+	/*margin-top:20px;*/
+	
+}
+#sidebar{
+	position:fixed;
+	width:180px;
+	height:100%;
+	left:0px;
+	top:0px;
+	background-color:#555555;
+	z-index:9000;
+	color:white;
+	padding:10px;
+}
+#editor{
+	position:fixed;
+	width:-webkit-calc(100% - 200px);
+	height:-webkit-calc(100% - 30px);
+	bottom:0px;
+	left:200px;
+	font-size:13pt;
+}
+
