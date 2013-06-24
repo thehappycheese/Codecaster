@@ -1,17 +1,28 @@
 #tabs{
 	position:fixed;
-	width:-webkit-calc(100% - 200px);
+	width:-webkit-calc(100% - 200px - 18px);
 	height:30px;
+	border-bottom:ridge 4px orange;
 	left:200px;
 	top:0px;
 	background-color:#555555;
 	overflow-x:no-display;
 }
+#tabsSel{
+	position:fixed;
+	width: 18px;
+	height:30px;
+	border-bottom:ridge 4px orange;
+	right:0px;
+	top:0px;
+	background-color:#555555;
+}
 .tab{
 	-webkit-user-select:none;
 	cursor:pointer;
 	float:left;
-	background-color:#999999;
+	background-color:#666666;
+	color:#333333;
 	height:25px;
 	margin:5px 0px 0px 5px;
 	vertical-align:middle;
@@ -22,21 +33,39 @@
 	font-family:sans-serif;
 	border-radius:5px 5px 0px 0px;
 }
+.tab-selected{
+	color:white;
+	height:24px;
+	background-color:#888888;
+	border-top:1px solid orange;
+}
 .tab-cross{
-	display:inline;
+	display:inline-block;
 	
+	width:-webkit-calc(0.8em - 4px);
+	height:-webkit-calc(0.8em - 4px);
 	color:blue;
+	margin-left:1em;
+	margin-top:0.1em;
+	margin-bottom:0.1em;
+	line-height:1em;
+	border-radius:0.5em;
+	vertical-align:middle;
+	text-align:center;
+	border: 2px solid orange;
+	background-color:none;
 }
 .tab-cross:hover{
-	color:red;
+	color:white;
+	width:0.8em;
+	height:0.8em;
+	background-color:orange;
+	border:none;
 }
 .tab-cross:after{
-	content:" x";
-}
-
-.tab-selected{
-	background-color:#CCCCCC;
+	/*content:"X";*/
 }
 .tab:hover{
 	background-color:#FFFFFF;
+	color:black;
 }

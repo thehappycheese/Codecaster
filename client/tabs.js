@@ -6,8 +6,14 @@ Tabs.selected = 0;
 Tabs.div = document.getElementById("tabs");
 Tabs.onselect = function(){};
 Tabs.onclose = function(){};
-Tabs.addFile = (function (name,id,data){
-	this.list.push({name:name,id:id,data:data});
+Tabs.addFile = (function (name,id,session){
+	var newfile = {name:name,id:id,session:session};
+	window.addEventListener("keyup",(function(e){
+		console.log("text input")
+		console.log(e.data);
+		server.sendEvent("replaceFile",{id:this.id,data:this.session.getValue()});
+	}).bind(newfile));
+	this.list.push(newfile);
 	this.refresh();
 }).bind(Tabs);
 Tabs.closeFile = (function(id){
@@ -19,6 +25,26 @@ Tabs.closeFile = (function(id){
 	}
 	this.refresh();
 }).bind(Tabs);
+Tabs.getFileById = (function(id){
+	for(var i =0;i<this.list.length;i++){
+		if(this.list[i].id==id){
+			return this.list[i];
+		}
+	}
+}).bind(Tabs);
+Tabs.setFocus = (function(id){
+	for(var i=0;i<this.list.length;i++){
+		if(this.list[i].id == id){
+			Tabs.selection = i;
+			break;
+		}
+	}
+	this.refresh();
+}).bind(Tabs);
+Tabs.clear = (function(){
+	this.list =[];
+	this.refresh();
+}).bind(Tabs);
 
 Tabs.refresh = (function(){
 	this.div.innerHTML = "";
@@ -28,10 +54,13 @@ Tabs.refresh = (function(){
 		cross.className = "tab-cross";
 		cross.indx = i;
 		cross.onclick = (function(e){
-			Tabs.list.splice(e.target.indx,1);
-			Tabs.refresh();
 			e.cancelBubble=true;
-			Tabs.onclose({name:Tabs.list[e.target.indx].name,id:Tabs.list[e.target.indx].id});
+			this.onclose({name:this.list[e.target.indx].name,id:this.list[e.target.indx].id});
+			this.list.splice(e.target.indx,1);
+			while(this.selected>=this.list.length && this.selected>0){
+				this.selected--;
+			}
+			Tabs.refresh();
 		}).bind(Tabs);
 		
 		var tabDiv = document.createElement("div");
@@ -44,13 +73,14 @@ Tabs.refresh = (function(){
 		}).bind(Tabs);
 		if(i==this.selected){
 			tabDiv.className+=" tab-selected";
-			editor.setValue(this.list[i].data);
+			editor.setSession(this.list[i].session);
 			setEditorLangFileName(this.list[i].name);
 		}
 		tabDiv.appendChild(document.createTextNode(getFileName(this.list[i].name)));
 		tabDiv.appendChild(cross);
 		this.div.appendChild(tabDiv);
 	}
+	editor.focus();
 }).bind(Tabs);
 function getFileName(path){
 	var result = "";

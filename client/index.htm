@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 	<head>
-		<title></title>
+		<title>Codecaster</title>
 		<link rel="stylesheet" href="index.css" type="text/css">
 		<link rel="stylesheet" href="tabs.css" type="text/css">
 	</head>
@@ -59,7 +59,15 @@
 				<h2>Admin Tools:</h2>
 			</div>
 		</div>
+		<div id="tabsSel">
+			<select style="border:none;margin:0px;vertical-align:middle;" onchange="setEditorTextSize(event)">
+					<option value="8pt">file 01</option>
+					<option value="11pt">file 02</option>
+					<option value="13pt">etc</option>
+			</select>
+		</div>
 		<div id="tabs"></div>
+		
 		<div id="editor" class="codeinput"></div>
 
 	</body>

@@ -19,19 +19,23 @@ server.trytoconnect = function(){
 				
 			}catch(err){
 				console.log("Server text: "+e.data);
+				return;
 			}
-			client[evt.f](evt.d);
+			events[evt.f](evt.d);
 		};
 		
 		server.socket.onopen = function (e){
 			console.log("conneciton opened");
+			status("connected");
 			clearInterval(server.conattempt);
 			server.conattempt = null;
 			server.socket.onmessage = server.onmessage;
+			server.sendEvent("refreshMe","");
 		};
 		
 		server.socket.onclose = function(e){
 			console.log("conneciton failed...");
+			status("disconnected");
 			server.socket = null;
 			if(server.conattempt == null){
 				server.conattempt = setInterval(server.trytoconnect,5000);

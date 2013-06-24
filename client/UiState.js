@@ -5,6 +5,7 @@ editor.setTheme("ace/theme/tomorrow_night")
 editor.getSession().setMode("ace/mode/javascript");
 //editor.setReadOnly(true);
 //editor.setHighlightActiveLine(false);
+editor.setShowPrintMargin(false);
 var statusBox = document.getElementById("statusBox");
 
 // SIDEBAR Interaction --------------------------------------------------
@@ -26,15 +27,17 @@ function setEditorColorScheme(e){
 	editor.setTheme(e.target.value);
 	// TODO: remember color scheme for user
 }
+function status(txt){
+	document.getElementById("statusBox").innerHTML = txt;
+}
 
 // TABS INTERACTION ---------------------------------------------------
 
 Tabs.onselect = function(e){
-	console.log(e);
+	// do nothing
 }
 Tabs.onclose = function(e){
-	console.log("closing: " +e.name);
+	console.log("Closing file: " + e.name);
 	server.sendEvent("closeFile",{id:e.id});
-	
-	
 }
+// EDITOR INTERACTION --------------------------------------------------

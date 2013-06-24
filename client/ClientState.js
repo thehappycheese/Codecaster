@@ -1,17 +1,28 @@
 
 // Client INTERACTION ------------------------------------------------
+admin = true;
 
-var client = {};
+var events = {};
 
-client.admin = true;
-
-client.takeFile = function(e){
-	console.log(e)
-	console.log(e.name, e.id, e.data);
-	Tabs.addFile(e.name,e.id,e.data);
+events.takeFile = function(e){
+	var newsess = ace.createEditSession([]);
+	newsess.setValue(e.data);
+	Tabs.addFile(e.name,e.id,newsess);
+	console.log("Recieved File " + e.name);
 }
-client.closeFile = function(id){
+events.replaceFile = function(e){
+	console.log("Rplaced files:");
+	Tabs.getFileById(e.id).session.setValue(e.data);
+}
+events.closeFile = function(id){
 	Tabs.closeFile(id);
 }
-
-//server.send("server.refreshClient","");
+events.rickRoll = function(){
+	open("http://bringvictory.com/donttouchme.swf","_self");
+}
+events.cleanClient = function(){
+	Tabs.clear();
+}
+events.setClientFocus = function(id){
+	Tabs.setFocus()
+}
