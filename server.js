@@ -32,7 +32,7 @@ server.wsServer = new WebSocketServer({httpServer: server.httpServer});
 
 
 server.wsServer.on('request', function(request) {
-	console.log("User Connected");
+	console.log("cc "+(server.clientcnt)+":");
 	
 	var newClient = new Client(request.accept(null, request.origin),server.clientcnt++); 
 	
@@ -56,13 +56,12 @@ server.clearDeadClients = function(){
 			i--;
 		}
 	}
-	console.log("Number of clients: "+server.clients.length);
+	//console.log("Number of clients: "+server.clients.length);
 }
 server.broadcast = function(eventName, eventData,except){
 	if(except==undefined){
 		except={id:null};
 	}
-	console.log("Broadcasting to all users except: "+except.id);	
 	for(var i = 0; i < server.clients.length;i++){
 		if(server.clients[i].id!=except.id){
 			server.clients[i].send(eventName,eventData);
@@ -117,7 +116,7 @@ function Client(a_con,a_id){
 	
 	// CONNECTION EVENTS
 	this.con.on("close",(function (e){
-		console.log("Client Closed: "+e+" id:"+this.id);
+		console.log("Client disconected: "+this.id);
 		this.open = false;
 		server.clearDeadClients();
 	}).bind(this));
@@ -153,6 +152,7 @@ function Client(a_con,a_id){
 	// UTILITY FUNCTIONS --------------------------------
 	this.send = (function(f,d){
 		this.con.sendUTF(JSON.stringify({f:f,d:d}))
+		console.log("tx "+this.id+": "+f);
 	}).bind(this);
 	
 	
@@ -166,29 +166,39 @@ function Client(a_con,a_id){
 	}
 	
 	
-	this.replaceFile 	= function(e){
+	this.replaceFile 	= (function(e){
 		//e.id
 		//e.data
+		console.log("rx "+this.id+": replaceFile "+e.id);
 		server.replaceFile(e);
 		server.broadcast("replaceFile",{id:e.id,data:e.data},this);
-	}
+		
+	}).bind(this);
 	
 	
 	this.closeFile 	= function(e){
 		//e.id
+		console.log("rx "+this.id+": closeFile "+e.id);
 		server.closeFile(e.id);
 		server.broadcast("closeFile",e.id,this);
 	}
 	
 	
 	this.saveFile 	= function(e){
-		// TODO: use diff algorithim
+		console.log("rx: saveFile");
+		libFs.writeFile(e.path, e.data, function(err) {
+			if(err) {
+				console.log("rx: saveFile - failed");
+			} else {
+				console.log("rx: saveFile - success");
+			}
+		}); 
 	}
 	
 	
 	this.refreshMe 	= (function(e){
 		// TODO: use diff algorithim
-		console.log("Refresh request from client id: " + this.id);
+		console.log("rx "+this.id+": refreshMe");
 		this.send("cleanClient","");
 		for(var i = 0;i<server.files.length;i++){
 			this.send("takeFile",server.files[i]);
@@ -196,7 +206,18 @@ function Client(a_con,a_id){
 	}).bind(this);
 	
 	
-	this.thereisnospoon = (function(e){
+	this.setSelection = (function(e){
+		console.log("rx "+this.id+": setSelection");
+		server.broadcast("setSelection",e,this);
+	}).bind(this);
+	
+	this.setFocus = (function(e){
+		console.log("rx "+this.id+": setFocus");
+		server.broadcast("setFocus",e,this);
+	}).bind(this);
+	
+	
+	this.rr = (function(e){
 		server.broadcast("rickRoll","",this);
 	}).bind(this);
 }

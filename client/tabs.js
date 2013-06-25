@@ -4,50 +4,77 @@ var Tabs = {};
 Tabs.list=[];
 Tabs.selected = 0;
 Tabs.div = document.getElementById("tabs");
-Tabs.onselect = function(){};
-Tabs.onclose = function(){};
+
+
 Tabs.addFile = (function (name,id,session){
-	var newfile = {name:name,id:id,session:session};
-	window.addEventListener("keyup",(function(e){
-		console.log("text input")
-		console.log(e.data);
-		server.sendEvent("replaceFile",{id:this.id,data:this.session.getValue()});
-	}).bind(newfile));
-	this.list.push(newfile);
+	this.list.push(new FileData(name,id,session));
+	
 	this.refresh();
 }).bind(Tabs);
+
+
+
 Tabs.closeFile = (function(id){
+	
 	for(var i=0;i<this.list.length;i++){
 		if(this.list[i].id == id){
 			this.list.splice(i,1);
 			break;
 		}
 	}
+	while(this.selected>=this.list.length && this.selected>0){
+		this.selected--;
+	}
 	this.refresh();
 }).bind(Tabs);
+
+
+
 Tabs.getFileById = (function(id){
 	for(var i =0;i<this.list.length;i++){
 		if(this.list[i].id==id){
 			return this.list[i];
 		}
 	}
+	return null;
 }).bind(Tabs);
+
+
+
+Tabs.getCurrentFile = (function(){
+	return this.list[this.selected];
+}).bind(Tabs);
+
+
+
 Tabs.setFocus = (function(id){
 	for(var i=0;i<this.list.length;i++){
 		if(this.list[i].id == id){
-			Tabs.selection = i;
+			this.selected = i;
 			break;
 		}
 	}
 	this.refresh();
 }).bind(Tabs);
+
+
+
 Tabs.clear = (function(){
 	this.list =[];
+	try{
+		editor.setSession(ace.createEditSession([]));
+	}catch(err){}
 	this.refresh();
 }).bind(Tabs);
 
+
+
 Tabs.refresh = (function(){
 	this.div.innerHTML = "";
+	
+	try{
+		editor.setSession(ace.createEditSession([]));
+	}catch(err){}
 	
 	for(var i = 0;i<this.list.length;i++){
 		var cross = document.createElement("div");
@@ -55,12 +82,17 @@ Tabs.refresh = (function(){
 		cross.indx = i;
 		cross.onclick = (function(e){
 			e.cancelBubble=true;
-			this.onclose({name:this.list[e.target.indx].name,id:this.list[e.target.indx].id});
-			this.list.splice(e.target.indx,1);
-			while(this.selected>=this.list.length && this.selected>0){
-				this.selected--;
+			
+			if(confirm("Save the file?")){
+				saveFile();
 			}
-			Tabs.refresh();
+			
+			var fle = this.list[e.target.indx];
+			
+			console.log("rm: file " + fle.name);
+			server.send("closeFile",{id:fle.id});
+			
+			this.closeFile(fle.id)
 		}).bind(Tabs);
 		
 		var tabDiv = document.createElement("div");
@@ -69,34 +101,25 @@ Tabs.refresh = (function(){
 		tabDiv.onclick = (function(e){
 			Tabs.selected = e.target.indx;
 			Tabs.refresh();
-			Tabs.onselect({name:Tabs.list[e.target.indx].name,id:Tabs.list[e.target.indx].id});
 		}).bind(Tabs);
 		if(i==this.selected){
 			tabDiv.className+=" tab-selected";
 			editor.setSession(this.list[i].session);
 			setEditorLangFileName(this.list[i].name);
 		}
-		tabDiv.appendChild(document.createTextNode(getFileName(this.list[i].name)));
-		tabDiv.appendChild(cross);
+		tabDiv.appendChild(document.createTextNode(this.list[i].name));
+		tabDiv.setAttribute("title",this.list[i].path)
+		if(admin){
+			tabDiv.appendChild(cross);
+		}
 		this.div.appendChild(tabDiv);
 	}
+	
 	editor.focus();
 }).bind(Tabs);
-function getFileName(path){
-	var result = "";
-	var inc=0;
-	for(var i = path.length-1;i>=0;i--){
-		if(path[i]!="\\"){
-			result = path[i] + result;
-		}else{
-			if(inc==1){
-				break;
-			}else{
-				inc++;
-				result = path[i] + result;
-			}
-		}
-	}
-	return result;
-}
+
+
+
+
+
 Tabs.refresh();

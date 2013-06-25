@@ -30,7 +30,7 @@ server.trytoconnect = function(){
 			clearInterval(server.conattempt);
 			server.conattempt = null;
 			server.socket.onmessage = server.onmessage;
-			server.sendEvent("refreshMe","");
+			server.send("refreshMe","");
 		};
 		
 		server.socket.onclose = function(e){
@@ -43,7 +43,8 @@ server.trytoconnect = function(){
 		};
 	}
 }
-server.sendEvent = (function (funcname,data){
+server.send = (function (funcname,data){
+	console.log("tx: "+funcname);
 	this.socket.send(JSON.stringify({f:funcname,d:data}));
 }).bind(server);
 server.trytoconnect();

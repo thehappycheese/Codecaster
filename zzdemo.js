@@ -1,5 +1,3 @@
-// Setup HTML UI --------------------------------------------------
-
 var editor = ace.edit("editor");
 editor.setTheme("ace/theme/tomorrow_night")
 editor.getSession().setMode("ace/mode/javascript");
@@ -23,21 +21,3 @@ function setEditorTextSize(e){
 	editor.setFontSize(e.target.value);
 	// TODO: This is an admin command... make everyone else follow suit
 }
-function setEditorColorScheme(e){
-	editor.setTheme(e.target.value);
-	// TODO: remember color scheme for user
-}
-function status(txt){
-	document.getElementById("statusBox").innerHTML = txt;
-}
-
-// TABS INTERACTION ---------------------------------------------------
-
-Tabs.onselect = function(e){
-	// do nothing
-}
-Tabs.onclose = function(e){
-	console.log("Closing file: " + e.name);
-	server.sendEvent("closeFile",{id:e.id});
-}
-// EDITOR INTERACTION --------------------------------------------------

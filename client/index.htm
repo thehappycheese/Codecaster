@@ -55,8 +55,15 @@
 				<option value="ace/theme/xcode"						>Xcode</option>        
 			</select></p>
 			
-			<div id="adminbox">
+			<div id="adminbox" style="display:none">
+				<hr>
 				<h2>Admin Tools:</h2>
+				<input type="button" value="getAttention" onclick="getAttention()"/>
+				<input type="button" value="saveFile" onclick="saveFile()"/>
+				<p>Recent Files:</p>
+				<div>
+					
+				</div>
 			</div>
 		</div>
 		<div id="tabsSel">
@@ -72,11 +79,20 @@
 
 	</body>
 	
+	
 	<script src="ace/ace.js" type="text/javascript" charset="utf-8"></script>
-	<script src="tabs.js"></script>
-	<script src="UiState.js"></script>
+	
+	<script src="diff_match_patch.js"></script>
+	<script src="nickDiff.js"></script>
+	
+	<script src="FileData.js"></script>
+	
+	<script src="Tabs.js"></script>
+	
+	<script src="UserEvents.js"></script>
+	
 	<script src="ServerState.js"></script>
-	<script src="ClientState.js"></script>
+	<script src="ServerEvents.js"></script>
 	
 	
 

@@ -23,8 +23,8 @@
 	float:left;
 	background-color:#666666;
 	color:#333333;
-	height:25px;
-	margin:5px 0px 0px 5px;
+	height:24px;
+	margin:6px 0px 0px 5px;
 	vertical-align:middle;
 	padding-left:10px;
 	padding-right:10px;
@@ -37,6 +37,7 @@
 	color:white;
 	height:24px;
 	background-color:#888888;
+	margin:5px 0px 0px 5px;
 	border-top:1px solid orange;
 }
 .tab-cross{
