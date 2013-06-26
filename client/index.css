@@ -13,11 +13,14 @@ h1{
 h2{
 	font-size:1.3em;
 }
+hr{
+	border-color:orange;
+}
 select{
 	display:block;
 	width:100%;
 }
-#statusBox{
+.roundBox{
 	background-color:#777777;
 	width:-webkit-calc(100% - 10px);
 	/*height:4em;*/
@@ -25,6 +28,15 @@ select{
 	border-radius:5px;
 	padding:5px;
 	font-family:sans-serif;
+}
+.fileListBox:last{
+	margin-bottom:0px;
+}
+.fileItem{
+    width:100%;
+    background-color:#666666;
+    border-radius:5px;
+	margin-bottom:5px;
 }
 #sidebar{
 	position:fixed;
@@ -45,4 +57,5 @@ select{
 	left:200px;
 	font-size:13pt;
 }
+
 

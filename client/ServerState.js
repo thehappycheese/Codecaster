@@ -6,6 +6,7 @@ server.socket = null;
 server.address = ""
 server.conattempt = null;
 // Maintain connection to the server --------------------------------------------------
+// TODO: write a manual address stripper to use for finding the ws:// from the document.URL
 server.trytoconnect = function(){
 	server.address = (/[0-9]*\.[0-9]*\.[0-9]*\.[0-9]*/).exec(document.URL)[0];
 	console.log("retrying connection on "+server.address);

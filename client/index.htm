@@ -11,9 +11,11 @@
 		<div id="sidebar">
 			<h1>Codecaster</h1>
 			
-			<div id="statusBox">[STATUS]</div>
-				
-			<h2>Options:</h2>
+			<div id="statusBox" class="roundBox">[STATUS]</div>
+			
+            
+			<hr>
+            <h2>Options:</h2>
 				<!--<p>Pause Live Feed: <input type="checkbox" id="paused"/></p>-->
 				Text Size: <select id="langmode" onchange="setEditorTextSize(event)">
 					<option value="8pt"	>Tiny</option>
@@ -56,13 +58,15 @@
 			</select></p>
 			
 			<div id="adminbox" style="display:none">
-				<hr>
+    			<hr>
 				<h2>Admin Tools:</h2>
 				<input type="button" value="getAttention" onclick="getAttention()"/>
 				<input type="button" value="saveFile" onclick="saveFile()"/>
 				<p>Recent Files:</p>
-				<div>
-					
+				<div id="recentFiles" class="roundBox fileListBox">
+					<div class="fileItem">rfile1</div>
+                    <div class="fileItem">rfile2</div>
+                    <div class="fileItem">rfile3</div>
 				</div>
 			</div>
 		</div>
@@ -87,7 +91,7 @@
 	
 	<script src="FileData.js"></script>
 	
-	<script src="Tabs.js"></script>
+	<script src="tabs.js"></script>
 	
 	<script src="UserEvents.js"></script>
 	
