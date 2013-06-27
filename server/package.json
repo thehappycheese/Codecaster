@@ -6,8 +6,8 @@
 		"toolbar": true,
 		"frame": true,
 		"width": 800,
-		"height": 500,
-		"position": "center"
+		"height": 600,
+		"position": "top"
 	},
 	"webkit": {
 		"plugin": true

@@ -22,10 +22,10 @@ server.clientcnt = 0;
 
 // USE THE 'CONNECT' LIBRARY TO CREATE A BASIC HTTP SERVER -----------------------
 //
-server.httpServer = libConnect.createServer(libConnect.static("U:\\Nicholas Archer\\GitHub\\Codecaster 2\\client\\",{redirect:"index.htm"})).listen(81);
+server.httpServer = libConnect.createServer(libConnect.static("U:\\Nicholas Archer\\GitHub\\Codecaster 2\\client\\",{redirect:"index.htm"})).listen(80);
 
 // USE THE 'WEBSOCKET' LIBRARY TO AUGMENT THE SERVER -----------------------------
-/*server.wsServer = new WebSocketServer({httpServer: server.httpServer});
+server.wsServer = new WebSocketServer({httpServer: server.httpServer});
 
 
 
@@ -41,7 +41,7 @@ server.wsServer.on('request', function(request) {
 	server.clients.push(newClient);
 	
 });
-
+/*
 // HANDLE CONSOLE INPUT ----------------------------------------------------------
 process.stdin.resume();
 process.stdin.setEncoding('utf8');// libFs.existsSync(
@@ -49,6 +49,7 @@ process.stdin.on('data', function (chunk) {
 	filename = chunk.slice(1,chunk.length-3);
 	server.openFile(filename);
 });
+*/
 
 // HANDLE INCOMMING COMMANDS ---------------------------------------------------------
 server.clearDeadClients = function(){
@@ -112,4 +113,4 @@ server.replaceFile = function(e){
 
 
 
-*/
+/**/

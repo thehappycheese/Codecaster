@@ -12,7 +12,7 @@ server.trytoconnect = function(){
 	console.log("retrying connection on "+server.address);
 	if(server.socket==null || server.socket.readyState==server.socket.CLOSED){
 		
-		server.socket = new WebSocket("ws://"+server.address+":81");
+		server.socket = new WebSocket("ws://"+server.address+":80");
 		
 		server.onmessage = function onWsMessage(e){
 			try{

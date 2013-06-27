@@ -7,9 +7,36 @@
 	<body>
 		<h1>Hello!</h1>
 		<p>I am a windows app i promise!</p>
+		<input type="file" onchange="openfile(event)">
 	</body>
 	<script>
-		
+		function openfile(e){
+			if(e.target.value.length>0){
+				server.openFile(e.target.value);
+			}
+		}
+		var gui = require('nw.gui');
+		var win = gui.Window.get();
+		win.x=30;
+		win.y=30;
+		var tools;
+		win.showDevTools("", true);
+		win.on("devtools-opened", function(url) {
+			tools = gui.Window.open(url,{
+				position: 'center',
+				width: 800,
+				height: 400
+			});
+			
+			tools.on('loaded',function(e){
+				tools.x=30;
+				tools.y=630;
+			});
+			win.on('close',function(e){
+				tools.close();
+				this.close(true);
+			});
+		});
 	</script>
 	<script src = "client.js"></script>
 	<script src = "server.js"></script>
