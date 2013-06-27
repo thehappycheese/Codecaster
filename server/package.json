@@ -1,0 +1,15 @@
+{
+	"main": "index.htm",
+	"name": "nw-demo",
+	"window": {
+		"icon": "favicon.png",
+		"toolbar": true,
+		"frame": true,
+		"width": 800,
+		"height": 500,
+		"position": "center"
+	},
+	"webkit": {
+		"plugin": true
+	}
+}
