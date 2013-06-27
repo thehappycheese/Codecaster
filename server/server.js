@@ -35,21 +35,10 @@ server.wsServer = new WebSocketServer({httpServer: server.httpServer});
 
 server.wsServer.on('request', function(request) {
 	console.log("cc "+(server.clientcnt)+":");
-	
 	var newClient = new Client(request.accept(null, request.origin),server.clientcnt++); 
-	
 	server.clients.push(newClient);
-	
+	updateClients();
 });
-/*
-// HANDLE CONSOLE INPUT ----------------------------------------------------------
-process.stdin.resume();
-process.stdin.setEncoding('utf8');// libFs.existsSync(
-process.stdin.on('data', function (chunk) {
-	filename = chunk.slice(1,chunk.length-3);
-	server.openFile(filename);
-});
-*/
 
 // HANDLE INCOMMING COMMANDS ---------------------------------------------------------
 server.clearDeadClients = function(){
@@ -59,7 +48,7 @@ server.clearDeadClients = function(){
 			i--;
 		}
 	}
-	//console.log("Number of clients: "+server.clients.length);
+	updateClients();
 }
 server.broadcast = function(eventName, eventData,except){
 	if(except==undefined){
@@ -84,6 +73,7 @@ server.openFile = function(path){
 			console.log(err);
 		}else{
 			server.files.push({name:path,id:server.filecnt,data:data});
+			updateFiles()
 			server.broadcast("takeFile",{name:path,id:server.filecnt++,data:data});
 		}
 	});
@@ -93,9 +83,11 @@ server.closeFile = function(id){
 		if(server.files[i].id == id){
 			console.log("File Closed: " + server.files[i].name);
 			server.files.splice(i,1);
+			updateFiles()
 			break;
 		}
 	}
+	
 }
 server.replaceFile = function(e){
 	for(var i = 0;i<server.files.length;i++){
@@ -105,12 +97,3 @@ server.replaceFile = function(e){
 		}
 	}
 }
-
-// SERVER STATE MACHINE --------------------------------------------------------------
-
-
-
-
-
-
-/**/

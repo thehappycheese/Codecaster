@@ -1,0 +1,53 @@
+:root{
+	font-size:14pt;
+}
+
+body{
+	background-color:#555555;
+	color: white;
+	margin:10%;
+	padding:0px;
+	font-size:1em;
+}
+h1, h2{
+	font-family:sans-serif;
+}
+h1{
+	font-size:1.5rem;
+	color:orange;
+	margin-top:0px;
+}
+h2{
+	font-size:1.3rem;
+}
+hr{
+	border-color:orange;
+}
+.roundBox{
+	background-color:#777777;
+	width:-webkit-calc(100% - 10px);
+	height:-webkit-calc(100% - 5rem);
+	margin:1rem 0rem;
+	border-radius:5px;
+	font-family:sans-serif;
+	padding:5px;
+	overflow-y:scroll;
+	max-height:50%;
+	
+}
+
+.fileItem{
+    width:-webkit-calc(100% - 10px);
+    background-color:#666666;
+    border-radius:5px;
+	margin:5px;
+	white-space:no-wrap;
+	word-wrap:break-word;
+}
+.floaty{
+	width:-webkit-calc(50% - 20px);
+	padding:10px;
+	float:left;
+	height:300px;
+	height:vh - 5rem;
+}

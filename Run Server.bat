@@ -1,1 +1,1 @@
-start ..\node-webkit\nw.exe server.zip
+start ..\node-webkit\nw.exe server/server.zip

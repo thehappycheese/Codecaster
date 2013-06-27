@@ -1,12 +1,13 @@
 {
 	"main": "index.htm",
 	"name": "nw-demo",
+	"single-instance":true,
 	"window": {
 		"icon": "favicon.png",
-		"toolbar": true,
+		"toolbar": false,
 		"frame": true,
 		"width": 800,
-		"height": 600,
+		"height": 550,
 		"position": "top"
 	},
 	"webkit": {

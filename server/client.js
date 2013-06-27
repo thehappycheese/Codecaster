@@ -4,7 +4,7 @@ function Client(a_con,a_id){
 	this.con = a_con;
 	this.open = true;
 	
-	
+	//console.log(this.con);
 	
 	// CONNECTION EVENTS
 	this.con.on("close",(function (e){
@@ -99,7 +99,7 @@ function Client(a_con,a_id){
 	
 	
 	this.setSelection = (function(e){
-		console.log("rx "+this.id+": setSelection");
+		//console.log("rx "+this.id+": setSelection");
 		server.broadcast("setSelection",e,this);
 	}).bind(this);
 	
@@ -111,5 +111,9 @@ function Client(a_con,a_id){
 	
 	this.rr = (function(e){
 		server.broadcast("rickRoll","",this);
+	}).bind(this);
+	
+	this.fopen =  (function(e){
+		document.getElementById("fileinput").click();
 	}).bind(this);
 }
