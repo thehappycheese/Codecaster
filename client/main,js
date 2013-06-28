@@ -1,0 +1,6 @@
+
+
+
+Tabs = new EditorSession(editor);
+
+Tabs.refresh();

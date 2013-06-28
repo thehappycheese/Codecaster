@@ -1,8 +1,4 @@
-function openfile(e){
-	if(e.target.value.length>0){
-		server.openFile(e.target.value);
-	}
-}
+
 var gui = require('nw.gui');
 var win = gui.Window.get();
 win.x=30;
@@ -41,13 +37,22 @@ function updateClients(){
 		list.appendChild(ndiv);
 	}
 }
+function openfile(e){
+	if(e.target.value.length>0){
+		var arr = e.target.value.split(";");
+		for(var i = 0;i<arr.length;i++){
+			server.openFile(arr[i]);
+		}
+		e.target.value = "";
+	}
+}
 function updateFiles(){
 	var list = document.getElementById("fileList");
 	list.innerHTML="";
 	for(var i = 0;i<server.files.length;i++){
 		var ndiv = document.createElement("div");
 		ndiv.className = "fileItem";
-		ndiv.innerHTML = "id: " + server.files[i].id + " name: " +getFileName(server.files[i].name,1);
+		ndiv.innerHTML = server.files[i].id + " - " +getFileName(server.files[i].name,1);
 		list.appendChild(ndiv);
 	}
 }

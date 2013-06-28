@@ -1,27 +1,49 @@
-:root{
-	font-size:14pt;
-}
+
 
 body{
 	background-color:#555555;
 	color: white;
-	margin:10%;
-	padding:0px;
-	font-size:1em;
+	font-size:1.5em;
+	margin:1cm;
 }
 h1, h2{
 	font-family:sans-serif;
 }
 h1{
-	font-size:1.5rem;
+	font-size:1.5em;
 	color:orange;
 	margin-top:0px;
 }
 h2{
-	font-size:1.3rem;
+	font-size:1em;
 }
 hr{
 	border-color:orange;
+}
+.colDivLeft {
+	width:-webkit-calc(50% - 30px);
+	height:-webkit-calc(100% - 30px);
+	position:absolute;
+	left:0px;
+	top:0px;
+	padding:10px;
+	
+}
+.colDivRight{
+	width:-webkit-calc(50% - 30px);
+	height:-webkit-calc(100% - 30px);
+	position:absolute;
+	right:0px;
+	top:0px;
+	padding:10px;
+}
+#headDiv{
+	height:50px;
+}
+#mainDiv{
+	height:420px;
+	width:-webkit-calc(100% - 2cm);
+	position:absolute;
 }
 .roundBox{
 	background-color:#777777;
@@ -31,23 +53,16 @@ hr{
 	border-radius:5px;
 	font-family:sans-serif;
 	padding:5px;
-	overflow-y:scroll;
+	overflow-y:hidden;
 	max-height:50%;
 	
 }
 
 .fileItem{
+	font-size:0.6em;
     width:-webkit-calc(100% - 10px);
     background-color:#666666;
-    border-radius:5px;
 	margin:5px;
 	white-space:no-wrap;
 	word-wrap:break-word;
-}
-.floaty{
-	width:-webkit-calc(50% - 20px);
-	padding:10px;
-	float:left;
-	height:300px;
-	height:vh - 5rem;
 }

@@ -93,7 +93,7 @@ function Client(a_con,a_id){
 		console.log("rx "+this.id+": refreshMe");
 		this.send("cleanClient","");
 		for(var i = 0;i<server.files.length;i++){
-			this.send("takeFile",server.files[i]);
+			this.send("addFile",server.files[i]);
 		}
 	}).bind(this);
 	
@@ -113,7 +113,14 @@ function Client(a_con,a_id){
 		server.broadcast("rickRoll","",this);
 	}).bind(this);
 	
-	this.fopen =  (function(e){
+	this.openFile =  (function(e){
 		document.getElementById("fileinput").click();
+	}).bind(this);
+	
+	this.reqAdmin =  (function(e){
+		if(document.getElementById("adminlock").checked==false){
+			server.broadcast("clearAdmin","",this);
+			this.send("setAdmin","");
+		}
 	}).bind(this);
 }

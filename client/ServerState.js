@@ -44,8 +44,9 @@ server.trytoconnect = function(){
 		};
 	}
 }
-server.send = (function (funcname,data){
-	console.log("tx: "+funcname);
+server.send = (function (funcname,data,notlog){
+	if(!notlog)
+		console.log("tx: "+funcname);
 	this.socket.send(JSON.stringify({f:funcname,d:data}));
 }).bind(server);
 server.trytoconnect();

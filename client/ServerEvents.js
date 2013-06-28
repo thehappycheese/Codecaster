@@ -5,12 +5,11 @@
 
 var events = {};
 
-events.takeFile = function(e){
+events.addFile = function(e){
 	var newsess = ace.createEditSession([]);
 	newsess.setValue(e.data);
-	newsess.selection.on("changeSelection",checkSelectionChange);
 	Tabs.addFile(e.name,e.id,newsess);
-	console.log("rx: takeFile: " + e.name);
+	console.log("rx: addFile: " + e.name);
 }
 events.replaceFile = function(e){
 	console.log("rx: replaceFile: "+e.id);
@@ -23,12 +22,16 @@ events.replaceFile = function(e){
 		console.log(err);
 	};
 }
-events.closeFile = function(id){
+events.modifyFile = function(e){
 	
+}
+events.closeFile = function(id){
 	Tabs.closeFile(id);
 }
 events.rickRoll = function(){
-	open("http://bringvictory.com/donttouchme.swf","_self");
+	if(!admin){
+		open("http://bringvictory.com/donttouchme.swf","_self");
+	}
 }
 events.cleanClient = function(){
 	console.log("rx: cleanClient");
@@ -46,4 +49,20 @@ events.setSelection = function(e){
 	if(fle!=undefined && fle!=null){
 		editor.setNickSelection(fle.session,e.data)
 	}
+}
+events.setAdmin = function(e){
+	admin = true;
+	console.log("rx: Adminustrated");
+	editor.setReadOnly(false);
+	document.getElementById("adminbox").style.display = "block";
+	Tabs.refresh();
+	Tabs.updateEventListeners();
+}
+events.clearAdmin = function(e){
+	admin = false;
+	console.log("rx: Enslavement");
+	editor.setReadOnly(true);
+	document.getElementById("adminbox").style.display = "none";
+	Tabs.refresh();
+	Tabs.updateEventListeners();
 }

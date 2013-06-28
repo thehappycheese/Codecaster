@@ -2,15 +2,7 @@
 
 admin = false;
 
-window.addEventListener("keyup", function makeAdmin(e){
-	if(e.keyCode == 192 && e.ctrlKey){
-		admin = true;
-		console.log("You are admin");
-		editor.setReadOnly(false);
-		document.getElementById("adminbox").style.display = "block";
-		Tabs.refresh();
-	}
-});
+
 
 function getAttention(){
 	var fle = Tabs.getCurrentFile();
@@ -22,7 +14,47 @@ function saveFile(){
 }
 
 
-
+// SIDEBAR Interaction --------------------------------------------------
+var statusBox = document.getElementById("statusBox");
+function getEditorLangFileName(name){
+	var map = [
+		[".css","css"],
+		[".htm","html"],
+		[".html","html"],
+		[".js","javascript"],
+		[".json","javascript"],
+		[".cs","csharp"],
+		[".py","python"],
+		[".php","php"],
+		[".xml","xml"],
+		[".yaml","yaml"],
+		[".svg","svg"],
+		[".c","c_cpp"],
+		[".cpp","c_cpp"],
+		[".bat","powershell"],
+	];
+	var result = "text";
+	var tmp = "";
+	for(var i=0;i<map.length;i++){
+		tmp = name.substr(name.length - map[i][0].length, map[i][0].length);
+		if(tmp==map[i][0]){
+			result = map[i][1];
+			break;
+		}
+	}
+	return "ace/mode/"+result;
+}
+function setEditorTextSize(e){
+	editor.setFontSize(e.target.value);
+	// TODO: This is an admin command... make everyone else follow suit
+}
+function setEditorColorScheme(e){
+	editor.setTheme(e.target.value);
+	// TODO: remember color scheme for user
+}
+function status(txt){
+	document.getElementById("statusBox").innerHTML = txt;
+}
 
 
 
@@ -40,8 +72,6 @@ editor.setReadOnly(true);
 editor.setShowPrintMargin(false);
 
 
-
-
 editor.getNickSelection = (function(sess){
 	var sel = sess.selection.getRange();
 	var doc = sess.doc;
@@ -55,6 +85,8 @@ editor.getNickSelection = (function(sess){
 	}
 	return [start,end];
 }).bind(editor);
+
+
 
 editor.setNickSelection = (function(sess,arr){
 
@@ -89,51 +121,14 @@ editor.setNickSelection = (function(sess,arr){
 
 
 
-
-
-
-
-
-
-var statusBox = document.getElementById("statusBox");
-
-// SIDEBAR Interaction --------------------------------------------------
-function setEditorLangFileName(name){
-	editor.getSession().setMode("ace/mode/text");
-	if(			name.substr(name.length-4,4)==".css"){
-		editor.getSession().setMode("ace/mode/css");
-	}else if(	name.substr(name.length-4,4)==".htm" || name.substr(name.length-5,5)==".html"){
-		editor.getSession().setMode("ace/mode/html");
-	}else if(	name.substr(name.length-3,3)==".js"){
-		editor.getSession().setMode("ace/mode/javascript");
-	}
-}
-function setEditorTextSize(e){
-	editor.setFontSize(e.target.value);
-	// TODO: This is an admin command... make everyone else follow suit
-}
-function setEditorColorScheme(e){
-	editor.setTheme(e.target.value);
-	// TODO: remember color scheme for user
-}
-function status(txt){
-	document.getElementById("statusBox").innerHTML = txt;
-}
-
-// TABS INTERACTION ---------------------------------------------------
-
-
 // EDITOR INTERACTION --------------------------------------------------
 
 
-
-
 window.addEventListener("keyup",checkDataChange);
-
 function checkDataChange(e){
 	if(admin){
 		var fle = Tabs.getCurrentFile();
-		if(fle.oldData != fle.session.getValue()){
+		if(fle!=undefined && fle.oldData != fle.session.getValue()){
 			console.log("ch document: "+fle.id);
 			fle.oldData = fle.session.getValue()
 			server.send("replaceFile",{id:fle.id,data:fle.session.getValue()});
@@ -144,12 +139,13 @@ window.addEventListener("keyup",checkSelectionChange);
 function checkSelectionChange(e){
 	if(admin){
 		var fle = Tabs.getCurrentFile();
+		if(fle==undefined) return;
 		sel = editor.getNickSelection(fle.session);
 		if(fle.oldSel[0]!=sel[0] || fle.oldSel[1]!=sel[1]){
 			//console.log("ch selection");
 			fle.oldSel[0] = sel[0];
 			fle.oldSel[1] = sel[1];
-			server.send("setSelection",{id:fle.id,data:sel});
+			server.send("setSelection",{id:fle.id,data:sel},true);
 		}
 	}
 }

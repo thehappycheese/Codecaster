@@ -9,7 +9,7 @@
 	<body>
 
 		<div id="sidebar">
-			<h1>Codecaster</h1>
+			<h1 id="adminifier" ondblclick="server.send('reqAdmin','')">Codecaster</h1>
 			
 			<div id="statusBox" class="roundBox">[STATUS]</div>
 			
@@ -62,12 +62,6 @@
 				<h2>Admin Tools:</h2>
 				<input type="button" value="getAttention" onclick="getAttention()"/>
 				<input type="button" value="saveFile" onclick="saveFile()"/>
-				<p>Recent Files:</p>
-				<div id="recentFiles" class="roundBox fileListBox">
-					<div class="fileItem">rfile1</div>
-                    <div class="fileItem">rfile2</div>
-                    <div class="fileItem">rfile3</div>
-				</div>
 			</div>
 		</div>
 		<div id="tabsSel">

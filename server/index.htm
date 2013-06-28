@@ -6,18 +6,24 @@
 	<head>
 	<body>
 		
-		<h1>Codemaster</h1>
-		<hr>
-		
-		<div class ="floaty">
-			<h2>Files:</h2>
-			
-			<div id="fileList" class="roundBox">lol</div>
-			<input type="file" onchange="openfile(event)" id="fileinput">
+		<div id="headDiv">
+			<h1>Codemaster</h1>
+			<hr>
 		</div>
-		<div class ="floaty">
-			<h2>Clients:</h2>
-			<div id="clientList" class="roundBox">lol</div>
+		
+		<div id="mainDiv">
+			<div class ="colDivLeft">
+				<h2>Files:</h2>
+				
+				<div id="fileList" class="roundBox"></div>
+				<input type="file" onchange="openfile(event)" id="fileinput" multiple>
+			</div>
+			<div class ="colDivRight">
+				<h2>Clients:</h2>
+				<div id="clientList" class="roundBox"></div>
+				<input type="button" onclick="server.broadcast('rickRoll','')">
+				Admin Lock: <input type="checkbox" id="adminlock">
+			</div>
 		</div>
 		
 		

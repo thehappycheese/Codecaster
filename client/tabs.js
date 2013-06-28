@@ -7,11 +7,27 @@ Tabs.div = document.getElementById("tabs");
 
 
 Tabs.addFile = (function (name,id,session){
+	if(admin){
+		
+	}
+	session.setMode(getEditorLangFileName(name));
+	
 	this.list.push(new FileData(name,id,session));
 	
+	this.updateEventListeners();
 	this.refresh();
 }).bind(Tabs);
 
+
+Tabs.updateEventListeners = (function (){
+	for(var i =0;i<this.list.length;i++){
+		if(admin){
+			this.list[i].session.selection.on("changeSelection",checkSelectionChange);
+		}else{
+			this.list[i].session.selection.removeAllListeners()
+		}
+	}
+}).bind(Tabs);
 
 
 Tabs.closeFile = (function(id){
@@ -67,7 +83,22 @@ Tabs.clear = (function(){
 	this.refresh();
 }).bind(Tabs);
 
-
+Tabs.tabCloseFile = (function(index){
+	if(admin){
+		e.cancelBubble=true;
+		
+		if(confirm("Save the file?")){
+			saveFile();
+		}
+		
+		var fle = this.list[index];
+		
+		console.log("rm: file " + fle.name);
+		server.send("closeFile",{id:fle.id});
+		
+		this.closeFile(fle.id);
+	}
+}).bind(Tabs);
 
 Tabs.refresh = (function(){
 	this.div.innerHTML = "";
@@ -77,38 +108,36 @@ Tabs.refresh = (function(){
 	}catch(err){}
 	
 	for(var i = 0;i<this.list.length;i++){
+		
 		var cross = document.createElement("div");
+		var tabDiv = document.createElement("div");
+		
 		cross.className = "tab-cross";
 		cross.indx = i;
 		cross.onclick = (function(e){
-			e.cancelBubble=true;
-			
-			if(confirm("Save the file?")){
-				saveFile();
-			}
-			
-			var fle = this.list[e.target.indx];
-			
-			console.log("rm: file " + fle.name);
-			server.send("closeFile",{id:fle.id});
-			
-			this.closeFile(fle.id)
+			Tabs.tabCloseFile(e.target.indx);
 		}).bind(Tabs);
 		
-		var tabDiv = document.createElement("div");
+		
 		tabDiv.className="tab";
 		tabDiv.indx=i;
 		tabDiv.onclick = (function(e){
+			if(e.button==1){
+				Tabs.tabCloseFile(e.target.indx);
+				return
+			}
 			Tabs.selected = e.target.indx;
 			Tabs.refresh();
 		}).bind(Tabs);
+		
 		if(i==this.selected){
 			tabDiv.className+=" tab-selected";
 			editor.setSession(this.list[i].session);
-			setEditorLangFileName(this.list[i].name);
 		}
+		
 		tabDiv.appendChild(document.createTextNode(this.list[i].name));
-		tabDiv.setAttribute("title",this.list[i].path)
+		tabDiv.setAttribute("title",this.list[i].path);
+		
 		if(admin){
 			tabDiv.appendChild(cross);
 		}
@@ -118,8 +147,3 @@ Tabs.refresh = (function(){
 	editor.focus();
 }).bind(Tabs);
 
-
-
-
-
-Tabs.refresh();

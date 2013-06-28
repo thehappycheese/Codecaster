@@ -20,6 +20,10 @@ select{
 	display:block;
 	width:100%;
 }
+#adminifier{
+	-webkit-user-select:none;
+	cursor:pointer;
+}
 .roundBox{
 	background-color:#777777;
 	width:-webkit-calc(100% - 10px);

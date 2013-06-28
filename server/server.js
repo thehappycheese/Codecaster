@@ -74,7 +74,7 @@ server.openFile = function(path){
 		}else{
 			server.files.push({name:path,id:server.filecnt,data:data});
 			updateFiles()
-			server.broadcast("takeFile",{name:path,id:server.filecnt++,data:data});
+			server.broadcast("addFile",{name:path,id:server.filecnt++,data:data});
 		}
 	});
 }
