@@ -1,8 +1,3 @@
-
-// Client INTERACTION ------------------------------------------------
-
-
-
 var events = {};
 
 events.addFile = function(e){
@@ -33,8 +28,8 @@ events.rickRoll = function(){
 		open("http://bringvictory.com/donttouchme.swf","_self");
 	}
 }
-events.cleanClient = function(){
-	console.log("rx: cleanClient");
+events.closeAll = function(){
+	console.log("rx: closeAll");
 	Tabs.clear();
 }
 events.setFocus = function(e){

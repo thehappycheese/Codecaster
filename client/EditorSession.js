@@ -3,7 +3,7 @@ function EditorSession(){
 
 	this.files=[];
 	this.selected = 0;
-	this.div = document.getElementById("tabs");
+	
 
 
 	this.addFile = (function (name,id,session){
@@ -24,7 +24,24 @@ function EditorSession(){
 		}
 	}).bind(this);
 
-
+	this.tabCloseFile = (function(id){
+		if(admin){
+			e.cancelBubble=true;
+			
+			if(confirm("Save the file?")){
+				saveFile();
+			}
+			
+			var fle = this.getFileById(id);
+			
+			console.log("rm: file " + fle.name);
+			server.send("closeFile",{fle:id});
+			
+			this.closeFile(fle.id);
+		}
+	}).bind(this);
+	
+	
 	this.closeFile = (function(id){
 		
 		for(var i=0;i<this.files.length;i++){
@@ -77,67 +94,22 @@ function EditorSession(){
 		}catch(err){}
 		this.refresh();
 	}).bind(this);
+	
+	
 
-	this.tabCloseFile = (function(index){
-		if(admin){
-			e.cancelBubble=true;
-			
-			if(confirm("Save the file?")){
-				saveFile();
-			}
-			
-			var fle = this.files[index];
-			
-			console.log("rm: file " + fle.name);
-			server.send("closeFile",{id:fle.id});
-			
-			this.closeFile(fle.id);
-		}
-	}).bind(this);
+	
+	
+	
 
 	this.refresh = (function(){
-		this.div.innerHTML = "";
-		
-		try{
-			editor.setSession(ace.createEditSession([]));
-		}catch(err){}
-		
-		for(var i = 0;i<this.files.length;i++){
-			
-			var cross = document.createElement("div");
-			var tabDiv = document.createElement("div");
-			
-			cross.className = "tab-cross";
-			cross.indx = i;
-			cross.onclick = (function(e){
-				this.tabCloseFile(e.target.indx);
-			}).bind(this);
-			
-			
-			tabDiv.className="tab";
-			tabDiv.indx=i;
-			tabDiv.onclick = (function(e){
-				if(e.button==1){
-					this.tabCloseFile(e.target.indx);
-					return
-				}
-				this.selected = e.target.indx;
-				this.refresh();
-			}).bind(this);
-			
-			if(i==this.selected){
-				tabDiv.className+=" tab-selected";
-				editor.setSession(this.files[i].session);
-			}
-			
-			tabDiv.appendChild(document.createTextNode(this.files[i].name));
-			tabDiv.setAttribute("title",this.files[i].path);
-			
-			if(admin){
-				tabDiv.appendChild(cross);
-			}
-			this.div.appendChild(tabDiv);
+		if(this.files.length==0){
+			try{
+				editor.setSession(ace.createEditSession([]));
+			}catch(err){}
+		}else{
+			editor.setSession(this.files[0].session);// TODO: remove this lazy patch.
 		}
+		renderTabs(this);
 		
 		editor.focus();
 	}).bind(this);

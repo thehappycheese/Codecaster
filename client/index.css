@@ -1,6 +1,7 @@
 body{
 	margin:0px;
 	padding:0px;
+	background:black;
 }
 h1, h2{
 	font-family:sans-serif;
@@ -56,7 +57,7 @@ select{
 #editor{
 	position:fixed;
 	width:-webkit-calc(100% - 200px);
-	height:-webkit-calc(100% - 34px);
+	height:-webkit-calc(100% - 0px);
 	bottom:0px;
 	left:200px;
 	font-size:13pt;

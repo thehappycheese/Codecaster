@@ -3,7 +3,7 @@
 	<head>
 		<title>Codecaster</title>
 		<link rel="stylesheet" href="index.css" type="text/css">
-		<link rel="stylesheet" href="tabs.css" type="text/css">
+		<link rel="stylesheet" href="fileList.css" type="text/css">
 	</head>
 	
 	<body>
@@ -63,15 +63,12 @@
 				<input type="button" value="getAttention" onclick="getAttention()"/>
 				<input type="button" value="saveFile" onclick="saveFile()"/>
 			</div>
+			
+			<div id="tabs"></div>
+			
 		</div>
-		<div id="tabsSel">
-			<select style="border:none;margin:0px;vertical-align:middle;" onchange="Tabs.">
-					<option value="8pt">file 01</option>
-					<option value="11pt">file 02</option>
-					<option value="13pt">etc</option>
-			</select>
-		</div>
-		<div id="tabs"></div>
+		
+		
 		
 		<div id="editor" class="codeinput"></div>
 
@@ -85,6 +82,7 @@
 	
 	<script src="FileData.js"></script>
 	
+	<script src="TabRenderer.js"></script>
 	<script src="EditorSession.js"></script>
 	
 	<script src="UserEvents.js"></script>

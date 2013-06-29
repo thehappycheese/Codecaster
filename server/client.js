@@ -91,7 +91,7 @@ function Client(a_con,a_id){
 	this.refreshMe 	= (function(e){
 		// TODO: use diff algorithim
 		console.log("rx "+this.id+": refreshMe");
-		this.send("cleanClient","");
+		this.send("closeAll","");
 		for(var i = 0;i<server.files.length;i++){
 			this.send("addFile",server.files[i]);
 		}
