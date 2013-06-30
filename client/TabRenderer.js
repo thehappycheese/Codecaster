@@ -2,13 +2,85 @@ function renderTabs(editor){
 	var div = document.getElementById("tabs");
 	div.innerHTML = "";
 		
-	var f = renderTabs_decompse(editor.files);
-	console.log(f);
-	for(var folder in f){
+	var root = renderTabs_decompse(editor.files);
 	
-		var files = f[folder];
+	root.render(div);
+	
+}
+
+function getFolderDiv(){
+	
+}
+
+function renderTabs_decompse(files){
+	// make folder tree:	
+	var root = new Folder("root");
+	
+	for(var i=0; i<files.length; i++){
+		var depth =0;
+		var currentFolder = root;
+		while(files[i].getTopFolder(depth)!=""){
+			
+			var fold = files[i].getTopFolder(depth);
+			
+			var isafile = files[i].getTopFolder(depth+1)=="";
+			
+			if(isafile){
+				currentFolder.files.push(files[i].name)
+			}else{
+				if(currentFolder.folders[fold]==undefined){
+					currentFolder.folders[fold] = new Folder(fold);
+					
+				}
+				currentFolder = currentFolder.folders[fold];
+			}
+			depth++;
+		}
 		
-		var foldiv = document.createElement("div");
+	}
+	return root;
+}
+
+
+function Folder(arg_name){
+	this.name = arg_name;
+	
+	this.folders = {};
+	this.files = [];
+	
+	this.render = (function(div){
+		var tnode = document.createTextNode("+"+this.name);
+		var brelm = document.createElement("br");
+		div.appendChild(tnode);
+		div.appendChild(brelm);
+			
+		for(var i = 0;i<this.files.length;i++){
+			var tnode = document.createTextNode("----"+this.files[i]);
+			var brelm = document.createElement("br");
+			div.appendChild(tnode);
+			div.appendChild(brelm);
+		}
+		
+		for(var f in this.folders){
+			var sdiv = document.createElement("div");
+			sdiv.className = "tabFolder";
+			this.folders[f].render(sdiv);
+			div.appendChild(sdiv);
+		}
+	}).bind(this);
+	
+}
+
+
+
+
+
+
+
+
+
+/*
+var foldiv = document.createElement("div");
 		foldiv.className = "tabfolder";
 		foldiv.appendChild(document.createTextNode(folder+"/"));
 		
@@ -30,7 +102,7 @@ function renderTabs(editor){
 			/*if(i==editor.selected){
 				tabDiv.className+=" tab-selected";
 				editor.setSession(this.files[i].session);
-			}*/
+			}* /
 			// PROMBLEM! TODO: fix this problem! lololol
 			
 			if(admin){
@@ -46,25 +118,19 @@ function renderTabs(editor){
 			foldiv.appendChild(tabDiv);
 		}
 		div.appendChild(foldiv);
-	}
-	
-}
+		*/
 
-function renderTabs_decompse(files){
-	// make folder tree:
-	var folders = {};
-	for(var i=0;i<files.length;i++){// for every filename
-		
-		var first  = files[i].getFolder(0);
-		var second = files[i].getFolder(1);
-		
-		if(folders[second]==undefined){
-			folders[second] = {};
-		}
-		if(folders[second][first]==undefined){//first order
-			folders[second][first] = {};
-		}
-		folders[second][first][files[i].name]=files[i];
-	}
-	return folders;
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

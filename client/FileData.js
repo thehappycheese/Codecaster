@@ -35,6 +35,21 @@ function FileData(a_name,a_id,a_session){
 		}
 		return result;
 	}).bind(this);
+	
+	this.getTopFolder = (function(rank){
+		var result = "";
+		var inc=0;
+		for(var i = 0;i<this.path.length;i++){
+			if(this.path[i]=="\\"){
+				inc++;
+			}else if(inc==rank){
+				result += this.path[i];
+			}else if(inc==rank+1){
+				break;
+			}
+		}
+		return result;
+	}).bind(this);
 
 	this.path 		= a_name;
 	this.name		= this.getFileName(0);

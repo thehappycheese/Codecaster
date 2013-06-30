@@ -1,9 +1,11 @@
 #tabs{
 	width:100%;
 }
-.tabfolder{
-	width:-webkit-calc(100% + 10px);
+.tabFolder{
+	overflow-x:hidden;
+	white-space: nowrap;
 	background:black;
+	margin-left:8px;
 }
 .tab{
 	-webkit-user-select:none;
