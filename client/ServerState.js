@@ -26,8 +26,8 @@ server.trytoconnect = function(){
 		};
 		
 		server.socket.onopen = function (e){
-			console.log("conneciton opened");
-			status("connected");
+			//console.log("conneciton opened");
+			uistatus("connected");
 			clearInterval(server.conattempt);
 			server.conattempt = null;
 			server.socket.onmessage = server.onmessage;
@@ -35,8 +35,8 @@ server.trytoconnect = function(){
 		};
 		
 		server.socket.onclose = function(e){
-			console.log("conneciton failed...");
-			status("disconnected");
+			//console.log("conneciton failed...");
+			uistatus("disconnected");
 			server.socket = null;
 			if(server.conattempt == null){
 				server.conattempt = setInterval(server.trytoconnect,5000);
@@ -46,7 +46,7 @@ server.trytoconnect = function(){
 }
 server.send = (function (funcname,data,notlog){
 	if(!notlog)
-		console.log("tx: "+funcname);
+		//console.log("tx: "+funcname);
 	this.socket.send(JSON.stringify({f:funcname,d:data}));
 }).bind(server);
 server.trytoconnect();

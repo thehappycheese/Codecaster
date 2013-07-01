@@ -1,36 +1,45 @@
-#tabs{
-	width:100%;
-}
-.tabFolder{
-	overflow-x:hidden;
-	white-space: nowrap;
-	background:black;
-	margin-left:8px;
-}
-.tab{
-	-webkit-user-select:none;
-	cursor:pointer;
-	background-color:#666666;
-	color:#333333;
-	margin:5px 0px 0px 0px;
-	height:25px;
-	vertical-align:middle;
-	padding-left:10px;
-	padding-right:10px;
-	line-height:25px;
-	font-size:0.8em;
+#explorer{
 	font-family:sans-serif;
-	border-radius:5px 0px 0px 5px;
+	
+	-webkit-user-select:none;
+	width:100%;
+	cursor:default;
+	font-size:1.2em;
 }
-.tab:hover{
+#explorer:hover{
+	/*width:200%;*/
+}
+.folderDiv{
+	white-space: nowrap;
+	margin-left:8px;
+	border-left:grey 2px solid;
+	margin-top:8px;
+	margin-bottom:8px;
+}
+.folderNameDiv{
+	background-color:#555555;
+	border-bottom:grey 2px solid;
+	color:lightgrey;
+	margin-left:-10px;
+	padding-left:0.5em;
+	font-weight:bold;
+}
+.fileNameDiv{
+	cursor:pointer;
+	background-color:#999999;
+	color:#222222;
+	margin-bottom:1px;
+	padding-left:0.5em;
+	overflow-x:hidden;
+}
+.fileNameDiv:hover{
 	background-color:#FFFFFF;
 	color:black;
+	width:350px;
 }
-.tab-selected{
-	color:white;
-	padding-left:5px;
-	background-color:#25282C;
-	border-left:5px solid orange;
+.fileNameDiv-selected{
+	color:black;
+	background-color:orange;
 }
 .tab-cross{
 	display:inline-block;
@@ -45,11 +54,4 @@
 	text-align:center;
 	border: 2px solid orange;
 	background-color:none;
-}
-.tab-cross:hover{
-	color:white;
-	height:20px;
-	width:20px;
-	background-color:orange;
-	border:none;
 }

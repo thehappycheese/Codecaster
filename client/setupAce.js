@@ -1,11 +1,8 @@
-
-
-
-
 var editor = ace.edit("editor");
 editor.setTheme("ace/theme/tomorrow_night")
 editor.getSession().setMode("ace/mode/javascript");
 editor.setReadOnly(true);
+editor.setFontSize("14pt");
 //editor.setHighlightActiveLine(false);
 editor.setShowPrintMargin(false);
 
@@ -83,13 +80,3 @@ editor.setNickLang = function (name,sess){
 	}
 	sess.setMode("ace/mode/"+result);
 }
-
-admin = false;
-
-Tabs = new EditorSession(editor);
-Tabs.refresh();
-
-
-	// TODO: remember color scheme for user
-	
-	// TODO: This is an admin command... make everyone else follow suit

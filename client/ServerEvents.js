@@ -7,7 +7,7 @@ events.addFile = function(e){
 	console.log("rx: addFile: " + e.name);
 }
 events.replaceFile = function(e){
-	console.log("rx: replaceFile: "+e.id);
+	//console.log("rx: replaceFile: "+e.id);
 	try{
 		var fle = Tabs.getFileById(e.id);
 		fle.scrollTop = fle.session.getScrollTop();

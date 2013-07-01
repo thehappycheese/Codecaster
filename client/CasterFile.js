@@ -1,7 +1,9 @@
 
 
-function FileData(a_name,a_id,a_session){
-
+function CasterFile(a_name, a_id, a_session, a_editor){
+	
+	
+	
 	this.getFileName = (function(num){
 		var result = "";
 		var inc=0;
@@ -57,6 +59,7 @@ function FileData(a_name,a_id,a_session){
 	this.folder	= this.getFolder(0);
 	this.id 		= a_id;
 	this.session 	= a_session;
+	this.editor = a_editor;
 	this.oldData	= this.session.getValue();
 	this.oldSel		= [0,0];
 	this.scrollTop	= 0;

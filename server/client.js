@@ -44,7 +44,7 @@ function Client(a_con,a_id){
 	// UTILITY FUNCTIONS --------------------------------
 	this.send = (function(f,d){
 		this.con.sendUTF(JSON.stringify({f:f,d:d}))
-		console.log("tx "+this.id+": "+f);
+		//console.log("tx "+this.id+": "+f);
 	}).bind(this);
 	
 	
@@ -61,18 +61,18 @@ function Client(a_con,a_id){
 	this.replaceFile 	= (function(e){
 		//e.id
 		//e.data
-		console.log("rx "+this.id+": replaceFile "+e.id);
+		//console.log("rx "+this.id+": replaceFile "+e.id);
 		server.replaceFile(e);
 		server.broadcast("replaceFile",{id:e.id,data:e.data},this);
 		
 	}).bind(this);
 	
 	
-	this.closeFile 	= function(e){
+	this.closeFile 	= function(id){
 		//e.id
-		console.log("rx "+this.id+": closeFile "+e.id);
-		server.closeFile(e.id);
-		server.broadcast("closeFile",e.id,this);
+		console.log("rx "+this.id+": closeFile "+id);
+		server.closeFile(id);
+		server.broadcast("closeFile",id,this);
 	}
 	
 	

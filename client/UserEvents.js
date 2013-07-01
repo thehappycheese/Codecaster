@@ -1,28 +1,41 @@
 // ADMIN FUNCTIONS ---------------------------------------------
 
 
+window.addEventListener("keydown",function(e){
+	if(e.keyCode == 8 && !admin){
+		e.preventDefault();
+	}
+	if(e.ctrlKey ==true && e.keyCode == 83){
+		if(admin){
+			uisaveFile();
+		}
+		e.preventDefault();
+	}
+});
 
 
-
-function getAttention(){
+function uigetAttention(){
 	var fle = Tabs.getCurrentFile();
 	server.send("setFocus",{id:fle.id,st:fle.session.getScrollTop()});
 }
-function saveFile(){
+function uisaveFile(){
 	var fle = Tabs.getCurrentFile();
 	server.send("saveFile",{path:fle.path,data:fle.session.getValue()});
 }
-
+function uicloseFile(){
+	var fle = Tabs.getCurrentFile();
+	Tabs.confirmCloseFile(fle.id);
+}
 
 // SIDEBAR Interaction --------------------------------------------------
 
-function setEditorTextSize(e){
+function uisetEditorTextSize(e){
 	editor.setFontSize(e.target.value);
 }
-function setEditorColorScheme(e){
+function uisetEditorColorScheme(e){
 	editor.setTheme(e.target.value);
 }
-function status(txt){
+function uistatus(txt){
 	document.getElementById("statusBox").innerHTML = txt;
 }
 

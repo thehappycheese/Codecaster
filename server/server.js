@@ -34,7 +34,7 @@ server.wsServer = new WebSocketServer({httpServer: server.httpServer});
 
 
 server.wsServer.on('request', function(request) {
-	console.log("cc "+(server.clientcnt)+":");
+	//console.log("cc "+(server.clientcnt)+":");
 	var newClient = new Client(request.accept(null, request.origin),server.clientcnt++); 
 	server.clients.push(newClient);
 	updateClients();

@@ -7,24 +7,29 @@
 	</head>
 	
 	<body>
-
+		<div id="topbar">
+			<h1 id="adminifier" ondblclick="server.send('reqAdmin','')">Codecaster - </h1>
+			<h1 id="statusBox">[STATUS]</h1>
+		</div>
+		
 		<div id="sidebar">
-			<h1 id="adminifier" ondblclick="server.send('reqAdmin','')">Codecaster</h1>
-			
-			<div id="statusBox" class="roundBox">[STATUS]</div>
-			
+		
+			<div id="explorer"></div>
             
 			<hr>
-            <h2>Options:</h2>
-				<!--<p>Pause Live Feed: <input type="checkbox" id="paused"/></p>-->
-				Text Size: <select id="langmode" onchange="setEditorTextSize(event)">
-					<option value="8pt"	>Tiny</option>
-					<option value="11pt"	>Small</option>
-					<option value="13pt"	selected>Normal</option>
-					<option value="14pt"	>Large</option>
-					<option value="16pt"	>Huge</option>
-				</select>
-				<p>Color Theme:<br><select id="edtheme" onchange="setEditorColorScheme(event)">
+			
+			
+			<select id="langmode" onchange="uisetEditorTextSize(event)">
+				<option value="4pt"					>4pt</option>
+				<option value="8pt"					>8pt</option>
+				<option value="12pt"				>12pt</option>
+				<option value="14pt" selected	>14pt</option>
+				<option value="16pt"				>16pt</option>
+				<option value="24pt"				>24pt</option>
+			</select>
+			
+			
+			<select id="edtheme" onchange="uisetEditorColorScheme(event)">
 				<option value="ace/theme/ambiance"					>Ambiance</option>
 				<option value="ace/theme/chaos"						>Chaos</option>
 				<option value="ace/theme/chrome"					>Chrome</option>
@@ -55,16 +60,17 @@
 				<option value="ace/theme/twilight"					>Twilight </option>
 				<option value="ace/theme/vibrant_ink"				>Vibrant Ink </option>
 				<option value="ace/theme/xcode"						>Xcode</option>        
-			</select></p>
+			</select>
 			
 			<div id="adminbox" style="display:none">
     			<hr>
 				<h2>Admin Tools:</h2>
-				<input type="button" value="getAttention" onclick="getAttention()"/>
-				<input type="button" value="saveFile" onclick="saveFile()"/>
+				<input type="button" value="getAttention" onclick="uigetAttention()"/>
+				<input type="button" value="saveFile" onclick="uisaveFile()"/>
+				<input type="button" value="closeFile" onclick="uicloseFile()"/>
 			</div>
 			
-			<div id="tabs"></div>
+			
 			
 		</div>
 		
@@ -80,17 +86,19 @@
 	<script src="diff_match_patch.js"></script>
 	<script src="nickDiff.js"></script>
 	
-	<script src="FileData.js"></script>
 	
-	<script src="TabRenderer.js"></script>
-	<script src="EditorSession.js"></script>
+	
+	<script src="fileListRenderer.js"></script>
+	<script src="CasterFile.js"></script>
+	<script src="CasterSession.js"></script>
 	
 	<script src="UserEvents.js"></script>
 	
 	<script src="ServerState.js"></script>
 	<script src="ServerEvents.js"></script>
 	
-	<script src="main.js"></script>
+	<script src="setupAce.js"></script>
+	<script src="setupMain.js"></script>
 	
 	
 

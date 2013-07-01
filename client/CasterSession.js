@@ -1,15 +1,16 @@
-function EditorSession(){
+function CasterSession(){
 
 
 	this.files=[];
 	this.selected = 0;
 	
-
+	this.currentFileId = null;
 
 	this.addFile = (function (name,id,session){
 		editor.setNickLang(name,session);
-		this.files.push(new FileData(name,id,session));
+		this.files.push(new CasterFile(name,id,session));
 		this.updateEventListeners();
+		this.currentFileId = id;
 		this.refresh();
 	}).bind(this);
 
@@ -24,9 +25,8 @@ function EditorSession(){
 		}
 	}).bind(this);
 
-	this.tabCloseFile = (function(id){
+	this.confirmCloseFile = (function(id){
 		if(admin){
-			e.cancelBubble=true;
 			
 			if(confirm("Save the file?")){
 				saveFile();
@@ -35,7 +35,7 @@ function EditorSession(){
 			var fle = this.getFileById(id);
 			
 			console.log("rm: file " + fle.name);
-			server.send("closeFile",{fle:id});
+			
 			
 			this.closeFile(fle.id);
 		}
@@ -43,15 +43,20 @@ function EditorSession(){
 	
 	
 	this.closeFile = (function(id){
-		
 		for(var i=0;i<this.files.length;i++){
 			if(this.files[i].id == id){
 				this.files.splice(i,1);
+				success = true;
 				break;
 			}
 		}
-		while(this.selected>=this.files.length && this.selected>0){
-			this.selected--;
+		server.send("closeFile",id);
+		if(this.currentFileId == id){
+			if(this.files.length>0){
+				this.currentFileId = this.files[this.files.length-1].id
+			}else{
+				this.currentFileId = null;
+			}
 		}
 		this.refresh();
 	}).bind(this);
@@ -70,18 +75,14 @@ function EditorSession(){
 
 
 	this.getCurrentFile = (function(){
-		return this.files[this.selected];
+		return this.getFileById(this.currentFileId);
 	}).bind(this);
 
 
 
 	this.setFocus = (function(id){
-		for(var i=0;i<this.files.length;i++){
-			if(this.files[i].id == id){
-				this.selected = i;
-				break;
-			}
-		}
+		this.currentFileId = id;
+		
 		this.refresh();
 	}).bind(this);
 
@@ -89,6 +90,7 @@ function EditorSession(){
 
 	this.clear = (function(){
 		this.files =[];
+		this.currentFileId=null;
 		try{
 			editor.setSession(ace.createEditSession([]));
 		}catch(err){}
@@ -107,7 +109,7 @@ function EditorSession(){
 				editor.setSession(ace.createEditSession([]));
 			}catch(err){}
 		}else{
-			editor.setSession(this.files[0].session);// TODO: remove this lazy patch.
+			editor.setSession(this.getCurrentFile().session);
 		}
 		renderTabs(this);
 		
