@@ -20,6 +20,7 @@ server.filecnt = 0;
 server.clients = [];
 server.clientcnt = 0;
 
+
 // USE THE 'CONNECT' LIBRARY TO CREATE A BASIC HTTP SERVER -----------------------
 //
 server.httpServer = libConnect.createServer(libConnect.static("U:\\Nicholas Archer\\GitHub\\Codecaster 2\\client\\",{redirect:"index.htm"})).listen(80);

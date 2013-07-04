@@ -6,9 +6,6 @@
 	cursor:default;
 	font-size:1.2em;
 }
-#explorer:hover{
-	/*width:200%;*/
-}
 .folderDiv{
 	white-space: nowrap;
 	margin-left:8px;
@@ -23,6 +20,7 @@
 	margin-left:-10px;
 	padding-left:0.5em;
 	font-weight:bold;
+    -webkit-animation: wipein 0.5s;
 }
 .fileNameDiv{
 	cursor:pointer;
@@ -31,15 +29,21 @@
 	margin-bottom:1px;
 	padding-left:0.5em;
 	overflow-x:hidden;
+    
 }
 .fileNameDiv:hover{
 	background-color:#FFFFFF;
 	color:black;
-	width:350px;
+	/*width:350px;*/
 }
 .fileNameDiv-selected{
 	color:black;
 	background-color:orange;
+    -webkit-animation: pulse 1s;
+}
+.fileNameDiv-selected:hover{
+    color:black;
+	background-color:gold;
 }
 .tab-cross{
 	display:inline-block;
