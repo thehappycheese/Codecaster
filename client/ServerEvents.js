@@ -21,7 +21,7 @@ events.modifyFile = function(e){
 	
 }
 events.closeFile = function(id){
-	Tabs.closeFile(id);
+	Tabs.closeFile(id,true);
 }
 events.rickRoll = function(){
 	if(!admin){

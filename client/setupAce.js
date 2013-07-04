@@ -54,6 +54,7 @@ editor.setNickSelection = (function(sess,arr){
 
 editor.setNickLang = function (name,sess){
 	var map = [
+        [".as","actionscript"],
 		[".css","css"],
 		[".htm","html"],
 		[".html","html"],

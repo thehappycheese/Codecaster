@@ -27,7 +27,7 @@ function CasterSession(){
 
 	this.confirmCloseFile = (function(id){
 		if(admin){
-			
+			server.send("closeFile",id);
 			if(confirm("Save the file?")){
 				saveFile();
 			}
@@ -42,7 +42,8 @@ function CasterSession(){
 	}).bind(this);
 	
 	
-	this.closeFile = (function(id){
+	this.closeFile = (function(id,fromServer){
+		var success = false;
 		for(var i=0;i<this.files.length;i++){
 			if(this.files[i].id == id){
 				this.files.splice(i,1);
@@ -50,7 +51,9 @@ function CasterSession(){
 				break;
 			}
 		}
-		server.send("closeFile",id);
+		if(!success){
+			return;
+		}
 		if(this.currentFileId == id){
 			if(this.files.length>0){
 				this.currentFileId = this.files[this.files.length-1].id
