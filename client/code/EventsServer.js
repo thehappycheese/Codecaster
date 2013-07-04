@@ -1,4 +1,4 @@
-define(["main"],function(){
+//define(["main"],function(){
 	
 	wsclient.on("addFile", function (e) {
 		var newsess = ace.createEditSession([]);
@@ -69,6 +69,6 @@ define(["main"],function(){
 		Tabs.updateEventListeners();
 	});
 
-});
+//});
 
 
