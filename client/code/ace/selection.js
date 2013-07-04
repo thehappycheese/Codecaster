@@ -860,6 +860,52 @@ var Selection = function(session) {
         range.desiredColumn = this.$desiredColumn;
         return range;
     }
+	
+	this.getNickSelection = function(){
+		var sel = this.getRange();
+		var doc = this.doc;
+		var start = sel.start.column;
+		var end = sel.end.column;
+		for(var i = 0;i<sel.start.row;i++){
+			start+=doc.$lines[i].length+1;
+		}
+		for(var i = 0;i<sel.end.row;i++){
+			end+=doc.$lines[i].length+1;
+		}
+		return [start,end];
+	};
+	
+	this.setNickSelection = function(arr){
+		var doc = this.doc;
+
+		var rng = {start:{row:0,column:0},end:{row:0,column:0}};
+		
+		var curr = 0;
+		
+		for(var i = 0;i<this.doc.$lines.length;i++){
+			if(arr[0] > curr+this.doc.$lines[i].length){
+				rng.start.row++;
+				curr += this.doc.$lines[i].length+1;
+			}else{
+				break;
+			}
+		}
+		rng.start.column = arr[0]-curr;
+		
+		var curr = 0;
+		
+		for(var i = 0;i<this.doc.$lines.length;i++){
+			if(arr[1] > curr+this.doc.$lines[i].length){
+				rng.end.row++;
+				curr += this.doc.$lines[i].length+1;
+			}else{
+				break;
+			}
+		}
+		rng.end.column = arr[1]-curr;
+
+		this.setRange(rng);
+	};
 
 }).call(Selection.prototype);
 

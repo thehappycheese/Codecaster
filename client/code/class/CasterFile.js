@@ -1,8 +1,8 @@
-
-
-function CasterFile(a_name, a_id, a_session, a_editor){
 	
-	
+"use strict";
+define(function(){
+
+var CasterFile = function(a_name, a_id, a_session, a_editor){
 	
 	this.getFileName = (function(num){
 		var result = "";
@@ -65,4 +65,6 @@ function CasterFile(a_name, a_id, a_session, a_editor){
 	this.scrollTop	= 0;
 }
 
+return CasterFile;
 
+});

@@ -2401,6 +2401,36 @@ var EditSession = function(text, mode) {
                c >= 0xFF01 && c <= 0xFF60 ||
                c >= 0xFFE0 && c <= 0xFFE6;
     };
+	
+	this.setNickLang = function (name){
+		var map = [
+			[".as","actionscript"],
+			[".css","css"],
+			[".htm","html"],
+			[".html","html"],
+			[".js","javascript"],
+			[".json","javascript"],
+			[".cs","csharp"],
+			[".py","python"],
+			[".php","php"],
+			[".xml","xml"],
+			[".yaml","yaml"],
+			[".svg","svg"],
+			[".c","c_cpp"],
+			[".cpp","c_cpp"],
+			[".bat","powershell"],
+		];
+		var result = "text";
+		var tmp = "";
+		for(var i=0;i<map.length;i++){
+			tmp = name.substr(name.length - map[i][0].length, map[i][0].length);
+			if(tmp==map[i][0]){
+				result = map[i][1];
+				break;
+			}
+		}
+		this.setMode("ace/mode/"+result);
+	};
 
 }).call(EditSession.prototype);
 

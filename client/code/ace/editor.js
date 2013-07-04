@@ -2213,7 +2213,7 @@ var Editor = function(renderer, session) {
         cursorLayer.setSmoothBlinking(style == "smooth");
         cursorLayer.isBlinking = !this.$readOnly && style != "wide";
     };
-
+	
 }).call(Editor.prototype);
 
 
