@@ -54,10 +54,10 @@ select{
 }
 #editor{
 	position:fixed;
-	width:-webkit-calc(100% - 250px);
+	width:-webkit-calc(100% - 250px - 20px);
 	height:-webkit-calc(100% - 40px);
 	bottom:0px;
-	left:250px;
+	right:0px;
 	font-size:13pt;
 }
 

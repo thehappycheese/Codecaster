@@ -10,9 +10,9 @@
 	<body>
 		<div id="topbar">
 			<h1 id="adminifier" ondblclick="server.send('reqAdmin','')">Codecaster - </h1>
-			<h1 id="statusBox">[STATUS]</h1>
+			<h1 id="statusBox">[STATUS]</h1> 
 		</div>
-		
+		 
 		<div id="sidebar">
 		
 			<div id="explorer"></div>
@@ -74,32 +74,37 @@
 			
 			
 		</div>
-		
-		
-		
+
 		<div id="editor" class="codeinput"></div>
 
 	</body>
-	
-	
-	<script src="ace/ace.js" type="text/javascript" charset="utf-8"></script>
-	
-	<script src="code/diff_match_patch.js"></script>
-	<script src="code/nickDiff.js"></script>
-	
-	
-	
+	<script data-main="code/main.js" src="code/require.js"></script>
+    <!--
+    <!- =============== THIRD PARTY =============== ->
+    <script src="ace/ace.js" type="text/javascript" charset="utf-8"></script>
+    
+	<!- =============== CLASSES =============== ->
+    <script src="code/class/CasterFile.js"></script>
+	<script src="code/class/CasterSession.js"></script>
+    <script src="code/class/diff_match_patch.js"></script>
+    <script src="code/class/EventDispatcher.js"></script>
+    <script src="code/class/WSClient.js"></script>
+    
+    <!- =============== GLOBALS =============== ->
+    <script src="code/setupAce.js"></script>
+    <script src="code/setupMain.js"></script>
+    
+	<!- =============== FUNCTIONS =============== ->
 	<script src="code/fileListRenderer.js"></script>
-	<script src="code/CasterFile.js"></script>
-	<script src="code/CasterSession.js"></script>
+	<script src="code/EventsSidebar.js"></script>
+    <script src="code/EventsWindow.js"></script>
+	<script src="code/EventsServer.js"></script>
+    
+	<!- =============== STATEMENTS =============== ->
+    -->
+    
 	
-	<script src="code/UserEvents.js"></script>
 	
-	<script src="code/ServerState.js"></script>
-	<script src="code/ServerEvents.js"></script>
-	
-	<script src="code/setupAce.js"></script>
-	<script src="code/setupMain.js"></script>
 	
 	
 
