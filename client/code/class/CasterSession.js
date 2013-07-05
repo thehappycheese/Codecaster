@@ -1,45 +1,50 @@
-define(["./CasterFile"],function(CasterFile){
+define(["class/CasterFile","FileListRenderer"], function(CasterFile, renderFileList){
 
 	var CasterSession = function(a_wsclient){
 	
 		this.wsclient = a_wsclient;
-
 		this.files=[];
 		this.selected = 0;
 		this.currentFileId = null;
+		
+		
+		
 		this.addFile = (function (name,id,session){
 		
 			session.setNickLang(name);
+			session.selection.on("changeSelection",this.checkSelectionChange);
 			this.files.push(new CasterFile(name,id,session));
-			this.updateEventListeners();
 			this.currentFileId = id;
 			this.refresh();
 		}).bind(this);
 
-
-		this.updateEventListeners = (function (){
-			for(var i =0;i<this.files.length;i++){
-				if(this.wsclient.admin){
-					this.files[i].session.selection.on("changeSelection",checkSelectionChange);
-				}else{
-					this.files[i].session.selection.removeAllListeners()
+		this.saveCurrentFile = (function(){
+			this.saveFileById(this.getCurrentFile().id);
+		}).bind(this);
+		
+		this.saveFileById = (function(id){
+			if(this.wsclient.admin){
+				var fle = casterSession.getFileById(id);
+				if(fle != undefined){
+					wsclient.send("saveFile",{path:fle.path,data:fle.session.getValue()});
 				}
 			}
 		}).bind(this);
-
+		
 		this.confirmCloseFile = (function(id){
 			if(this.wsclient.admin){
-				server.send("closeFile",id);
-				if(confirm("Save the file?")){
-					saveFile();
+				var fle = casterSession.getFileById(id);
+				
+				if(confirm("Save? "+fle.name)){
+					this.saveFileById(id);
+					this.closeFile(fle.id);
+					wsclient.send("closeFile",id);
+				}else{
+					wsclient.send("closeFile",id);
+					this.closeFile(fle.id);
+					wsclient.send("closeFile",id);
 				}
-				
-				var fle = this.getFileById(id);
-				
 				console.log("rm: file " + fle.name);
-				
-				
-				this.closeFile(fle.id);
 			}
 		}).bind(this);
 		
@@ -112,11 +117,56 @@ define(["./CasterFile"],function(CasterFile){
 			}else{
 				editor.setSession(this.getCurrentFile().session);
 			}
-			renderTabs(this);
+			renderFileList(this);
 			
 			editor.focus();
 		}).bind(this);
+		
+		
+		// window events
+		
+		this.checkSelectionChange = (function(e) {
+			
+			if (this.wsclient.admin) {
+				var fle = this.getCurrentFile();
+				if (fle === undefined){
+					return;
+				}
+				sel = fle.session.getSelection().getNickSelection();
+				if (fle.oldSel[0] !== sel[0] || fle.oldSel[1] !== sel[1]) {
+					fle.oldSel[0] = sel[0];
+					fle.oldSel[1] = sel[1];
+					this.wsclient.send("setSelection", {
+						id : fle.id,
+						data : sel
+					}, true);
+				}
+			}
+		}).bind(this);
+		window.addEventListener("keyup", this.checkSelectionChange);
+		window.addEventListener("mousedown", this.checkSelectionChange);
+		window.addEventListener("mouseup", this.checkSelectionChange);
+		
+		this.checkDataChange = (function(e) {
+			if (this.wsclient.admin) {
+				var fle = this.getCurrentFile();
+				if (fle !== undefined && fle.oldData !== fle.session.getValue()) {
+					console.log("ch doc"+fle.id);
+					fle.oldData = fle.session.getValue();
+						this.wsclient.send("replaceFile", {
+							id : fle.id,
+							data : fle.session.getValue()
+						});
+				}
+			}
+		}).bind(this);
+		window.addEventListener("keyup", this.checkDataChange);
+		
 	}
+
+	
+	
+	
 
 	return CasterSession
 });

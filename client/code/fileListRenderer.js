@@ -1,18 +1,7 @@
 
+	define(function(){
 
 
-
-function renderTabs(castSess){
-	var div = document.getElementById("explorer");
-	div.innerHTML = "";
-		
-	var root = renderTabs_decompse(castSess.files);
-	root.render(div, castSess);
-}
-
-function getFolderDiv(){
-	
-}
 
 function renderTabs_decompse(files){
 	// make folder tree:	
@@ -44,6 +33,7 @@ function renderTabs_decompse(files){
 	root.simplify();
 	return root;
 }
+
 
 
 function Folder(arg_name){
@@ -92,6 +82,8 @@ function Folder(arg_name){
 	
 }
 
+
+
 function makeFileItem(file, castSess){
 	var div = document.createElement("div");
 	var child = document.createTextNode(file.name);
@@ -115,6 +107,8 @@ function makeFileItem(file, castSess){
 	return div;
 }
 
+
+
 function makeDivFolderName(str){
 	var div = document.createElement("div");
 	var child = document.createTextNode(str);
@@ -124,6 +118,18 @@ function makeDivFolderName(str){
 }
 
 
+
+var render = function (castSess){
+	var div = document.getElementById("fileList");
+	div.innerHTML = "";
+		
+	var root = renderTabs_decompse(castSess.files);
+	root.render(div, castSess);
+}
+
+return render;
+
+	});
 
 
 

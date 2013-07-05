@@ -5,7 +5,7 @@ define(["class/EventDispatcher"], function (EventDispatcher) {
 	function WSClient(a_address, a_port) {
 		//console.log(EventDispatcher);
 		EventDispatcher.call(this);
-
+		this.debug = {rx:true, tx:true};
 		this.admin = false;
 		this.socket = null;
 		this.address = a_address;
@@ -22,6 +22,9 @@ define(["class/EventDispatcher"], function (EventDispatcher) {
 			}
 			if (evt.f !== undefined && evt.d !== undefined) {
 				this.dispatch(evt.f, evt.d);
+				if(this.debug.rx){
+					console.log("rx: "+evt.f);
+				}
 			} else {
 				console.log("WSClient MALFORMED PACKET");
 			}
@@ -56,9 +59,14 @@ define(["class/EventDispatcher"], function (EventDispatcher) {
 					f : funcname,
 					d : data
 				}));
+			if(this.debug.tx){
+				console.log("tx: "+funcname);
+			}
 		}).bind(this);
 
 		this.trytoconnect();
-	};
+	}
+    
+    
 	return WSClient;
 });

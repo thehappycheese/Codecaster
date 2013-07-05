@@ -1,30 +1,55 @@
 "use strict";
+
+define(["ace/ace","class/WSClient","class/CasterSession"],function(){
+
+
+
+
+
+var register = function(){
+
+
+
+
 // ADMIN FUNCTIONS ---------------------------------------------
 
-function uigetAttention(){
-	var fle = Tabs.getCurrentFile();
-	server.send("setFocus",{id:fle.id,st:fle.session.getScrollTop()});
+window.uigetAttention = function(){
+	var fle = casterSession.getCurrentFile();
+	if(fle != undefined){
+		wsclient.send("setFocus",{id:fle.id,st:fle.session.getScrollTop()});
+	}
 }
-function uisaveFile(){
-	var fle = Tabs.getCurrentFile();
-	server.send("saveFile",{path:fle.path,data:fle.session.getValue()});
+window.uisaveFile = function(){
+	casterSession.saveCurrentFile();
 }
-function uicloseFile(){
-	var fle = Tabs.getCurrentFile();
-	Tabs.confirmCloseFile(fle.id);
+window.uicloseFile = function(){
+	var fle = casterSession.getCurrentFile();
+	casterSession.confirmCloseFile(fle.id);
 }
 
 // SIDEBAR Interaction --------------------------------------------------
 
-function uisetEditorTextSize(e){
+window.uisetEditorTextSize = function(e){
 	editor.setFontSize(e.target.value);
 }
-function uisetEditorColorScheme(e){
+window.uisetEditorColorScheme = function(e){
 	editor.setTheme(e.target.value);
 }
-function uistatus(txt){
+window.uistatus = function(txt){
 	document.getElementById("statusBox").innerHTML = txt;
 }
+
+
+
+}
+
+
+return register
+
+
+
+
+});
 
 
 

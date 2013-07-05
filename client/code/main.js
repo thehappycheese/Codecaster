@@ -1,11 +1,17 @@
 "use strict";
 var ace;
 var wsclient;
-var Tabs;
+var casterSession;
 var editor;
 var dummySession;
 
-define("main", ["ace/ace", "class/WSClient", "class/CasterSession"], function (race, WSClient, CasterSession) {
+define([
+	"ace/ace",
+	"class/WSClient",
+	"class/CasterSession",
+	"EventsServer",
+	"EventsSidebar"
+	], function (race, WSClient, CasterSession, EventsServer, EventsSidebar) {
 	
 	ace = race;
 	editor = ace.edit("editor");
@@ -18,14 +24,24 @@ define("main", ["ace/ace", "class/WSClient", "class/CasterSession"], function (r
 	editor.setShowPrintMargin(false);
 
 	wsclient = new WSClient((/[0-9]*\.[0-9]*\.[0-9]*\.[0-9]*/).exec(document.URL)[0]);
-
-	wsclient.on("connect", function (e) {
-		wsclient.send("refreshMe", "");
-	});
-
-	require(["EventsServer"], function () {});
+	wsclient.on("connect", function (e) { wsclient.send("refreshMe", ""); });
 	
-	Tabs = new CasterSession(wsclient);
+	casterSession = new CasterSession(wsclient);
+	
+	EventsSidebar();
+	EventsServer();
+	
+	
+	
+	window.addEventListener("keydown", function (e) {
+		if (e.keyCode === 8 && !wsclient.admin) {
+			e.preventDefault();
+		}
+		if (e.ctrlKey === true && e.keyCode === 83) {
+			casterSession.saveCurrentFile();
+			e.preventDefault();
+		}
+	});
 	
 });
 

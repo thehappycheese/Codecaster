@@ -30,6 +30,7 @@ function Client(a_con,a_id){
 			console.log("Client Tried to call non-existant function: "+evt.f);
 			return;
 		}
+		console.log(evt.f);
 		func(evt.d);
 	}).bind(this));
 	
@@ -92,6 +93,7 @@ function Client(a_con,a_id){
 		// TODO: use diff algorithim
 		console.log("rx "+this.id+": refreshMe");
 		this.send("closeAll","");
+		this.send("clearAdmin","");
 		for(var i = 0;i<server.files.length;i++){
 			this.send("addFile",server.files[i]);
 		}
@@ -99,7 +101,7 @@ function Client(a_con,a_id){
 	
 	
 	this.setSelection = (function(e){
-		//console.log("rx "+this.id+": setSelection");
+		console.log("rx "+this.id+": setSelection");
 		server.broadcast("setSelection",e,this);
 	}).bind(this);
 	
